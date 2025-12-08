@@ -1,0 +1,32 @@
+{
+  "header": {
+    "mainPage": "Bosh sahifa",
+    "libraries": "Kutubxonalar",
+    "books": "Kitoblarim",
+    "loginBtn": "Kutubxonachi bo'lish"
+  },
+  "home": {
+    "title": "Kitoblar bir joyda - qidiruvni shu yerdan boshlang",
+    "SearchBtn": "Qidirish",
+    "placeholder": "Kitob nomi, muallif nomi"
+  },
+  "footer": {
+    "top": {
+      "title": " O'zbekistonning eng yirik kutubxona tarmog'i. Biz bilan kitob o'qishni boshlang!",
+      "links": "Tezkor havolalar",
+      "mainPage": "Bosh sahifa",
+      "libraries": "Kutubxonalar",
+      "books": "Kitoblarim",
+      "events": "Tadbirlar",
+      "about": "Biz haqimizda",
+      "contact": "Bog'lanish",
+      "location": "Toshkent shahri, Chilonzor tumani",
+      "socials": "Ijtimoiy tarmoqlar"
+    },
+    "bottom": {
+      "title": "© 2024 EZMA. Barcha huquqlar himoyalangan",
+      "privacy": "Maxfiylik siyosati",
+      "terms": "Foydalanish shartlari"
+    }
+  }
+}

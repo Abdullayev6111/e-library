@@ -1,0 +1,32 @@
+{
+  "header": {
+    "mainPage": "Home",
+    "libraries": "Libraries",
+    "books": "My books",
+    "loginBtn": "Becoming a Librarian"
+  },
+  "home": {
+    "title": "Books in one place - start your search here",
+    "SearchBtn": "Search",
+    "placeholder": "Book title, author's name"
+  },
+  "footer": {
+    "top": {
+      "title": "The largest library network in Uzbekistan. Start reading with us!",
+      "links": "Links",
+      "mainPage": "Home",
+      "libraries": "Libraries",
+      "books": "My books",
+      "events": "Events",
+      "about": "About us",
+      "contact": "Contact",
+      "location": "Tashkent city, Chilanzor district",
+      "socials": "Social network"
+    },
+    "bottom": {
+      "title": "© 2024 EZMA. All rights reserved.",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of use"
+    }
+  }
+}

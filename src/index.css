@@ -1,0 +1,270 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00aeff;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+@font-face {
+  font-family: cairo-r;
+  font-weight: 400;
+  src: url(./assets/fonts/Cairo-Regular.ttf);
+}
+
+@font-face {
+  font-family: cairo-m;
+  font-weight: 500;
+  src: url(./assets/fonts/Cairo-Medium.ttf);
+}
+
+@font-face {
+  font-family: cairo-sb;
+  font-weight: 600;
+  src: url(./assets/fonts/Cairo-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: cairo-b;
+  font-weight: 700;
+  src: url(./assets/fonts/Cairo-Bold.ttf);
+}
+
+.container {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Header start */
+
+header {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 701;
+  border-bottom: 1px solid #d9d9d9;
+  background-color: white;
+}
+
+.header-content {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 100px;
+  height: 30px;
+  margin-right: 30px;
+  margin-top: 5px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-left a {
+  text-decoration: none;
+  color: #000000d9;
+  font-family: cairo-b;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.header-left a.active {
+  color: #00aeff;
+  border-bottom: 3px solid #00aeff;
+}
+
+.login-btn {
+  padding: 10px 20px;
+  color: white;
+  background-color: #00aeff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: cairo-sb;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.login-btn:hover {
+  background-color: #0080ff;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Header end */
+
+/* Footer start */
+
+footer {
+  width: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding-top: 64px;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-top p {
+  color: #757575;
+  font-family: cairo-r;
+  font-size: 15px;
+}
+
+.footer-bottom {
+  margin-top: 40px;
+  padding-top: 24px;
+  padding-bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #d9d9d9;
+}
+
+.footer-bottom p {
+  font-family: cairo-r;
+  font-weight: 400;
+  font-size: 14px;
+  color: #757575;
+}
+
+.footer-bottom a {
+  font-family: cairo-r;
+  font-size: 14px;
+  color: #757575;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-bottom a:hover {
+  color: #00aeff;
+  font-weight: 500;
+}
+
+.footer-logo {
+  width: 160px;
+  height: 100px;
+}
+
+.footer-top-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-top-card h3 {
+  font-family: cairo-b;
+  font-size: 16px;
+  color: #000000d9;
+  margin-bottom: 10px;
+}
+
+.footer-top-card a {
+  text-decoration: none;
+  font-family: cairo-r;
+  font-weight: 400;
+  font-size: 16px;
+  color: #757575;
+  transition: all 0.3s linear;
+}
+
+.footer-top-card a:hover {
+  color: #00aeff;
+}
+/* Footer end */
+
+/* Hero section start */
+
+.hero-section {
+  width: 100%;
+  height: calc(96vh - 80px);
+  object-fit: cover;
+  background: url(https://ezma-client.vercel.app/assets/home-bg-aYS3sMx9.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+  position: absolute;
+  top: 33%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hero-content h2 {
+  font-size: 34px;
+  color: #00aeff;
+  font-family: cairo-sb;
+  letter-spacing: 0.3px;
+}
+
+.hero-content form {
+  width: 700px;
+  display: flex;
+}
+
+.hero-content input {
+  width: 100%;
+  height: 50px;
+  outline: none;
+  padding: 4px 15px;
+  background-color: #f5f5f5;
+  border: none;
+  font-size: 18px;
+  color: #000000d9;
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
+}
+
+.search-btn {
+  width: 93px;
+  height: 50px;
+  border: none;
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+  background: #1677ff;
+  color: white;
+}
+
+.search-btn:hover {
+  background-color: #4096ff;
+}
