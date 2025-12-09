@@ -207,6 +207,11 @@ footer {
 
 /* Hero section start */
 
+.hero {
+  width: 100%;
+  height: 100%;
+}
+
 .hero-section {
   width: 100%;
   height: calc(96vh - 80px);
@@ -267,4 +272,18 @@ footer {
 
 .search-btn:hover {
   background-color: #4096ff;
+}
+
+.carousel-element {
+  padding: 40px 0;
+}
+
+.carousel-top {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.book-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }

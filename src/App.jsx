@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import Libraries from './pages/Libraries';
 import Books from './pages/Books';
+import '@mantine/carousel/styles.css';
 
 const App = () => {
   return (

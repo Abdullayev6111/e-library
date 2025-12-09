@@ -21,6 +21,7 @@
     "@tanstack/react-query-devtools": "^5.91.1",
     "axios": "^1.13.2",
     "embla-carousel": "^8.5.2",
+    "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "i18next": "^25.7.1",
     "react": "^19.2.0",
