@@ -1,0 +1,142 @@
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import API from '../api/Api';
+import { Card, Image, Text, Badge, Group, Stack } from '@mantine/core';
+import { IconUser, IconBook, IconBooks } from '@tabler/icons-react';
+import { useState } from 'react';
+import { Pagination, Center } from '@mantine/core';
+import CardEl from './CardEl';
+
+const CardDetail = () => {
+  const { id } = useParams();
+  const { data: bookData, error } = useQuery({
+    queryKey: ['bookDetail', id],
+    queryFn: () => API.get(`/books/book/${id}/`).then((res) => res.data),
+  });
+
+  const { data: allBooks } = useQuery({
+    queryKey: ['books'],
+    queryFn: () => API.get('/books/books/').then((res) => res.data),
+  });
+
+  if (error) {
+    console.log(error.message);
+  }
+
+  const [page, setPage] = useState(1);
+  const booksPerPage = 8;
+
+  const startIndex = (page - 1) * booksPerPage;
+  const endIndex = startIndex + booksPerPage;
+  const currentBooks = allBooks.slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(allBooks.length / booksPerPage);
+
+  return (
+    <div className="container book-deail">
+      <div className="book-card-detail">
+        <Card
+          shadow="sm"
+          padding="lg"
+          radius="md"
+          withBorder
+          style={{
+            width: '100%',
+            backgroundColor: '#ffffff',
+          }}
+        >
+          <Group align="flex-start" gap="md">
+            <Image
+              w={300}
+              h={200}
+              radius="md"
+              src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400"
+            />
+
+            <Stack gap="xs" style={{ flex: 1 }}>
+              <Text size="xl" fw={700} c="dark">
+                {bookData?.name}
+              </Text>
+
+              <Badge color="cyan" variant="light" radius="sm">
+                ID: {bookData?.id}
+              </Badge>
+
+              <Group gap="sm" align="center">
+                <IconUser size={18} color="#666" />
+                <Text size="sm" c="dimmed">
+                  Muallif: {bookData?.author}
+                </Text>
+              </Group>
+
+              <Group gap="sm" align="center">
+                <IconBook size={18} color="#666" />
+                <Text size="sm" c="dimmed">
+                  Nashriyotchi: {bookData?.publisher}
+                </Text>
+              </Group>
+
+              <Group gap="sm" align="center">
+                <IconBooks size={18} color="#666" />
+                <Text size="sm" c="dimmed">
+                  Kitoblar soni: {bookData?.quantity_in_library}
+                </Text>
+              </Group>
+            </Stack>
+          </Group>
+        </Card>
+      </div>
+      <div className="all-books">
+        <h1 style={{ fontFamily: 'cairo-b', paddingBottom: 10, fontSize: 28, color: 'teal' }}>
+          Barcha kitoblar
+        </h1>
+        <div className="detail-all-books">
+          {currentBooks.map((book) => (
+            <CardEl key={book.id} post={book} />
+          ))}
+        </div>
+
+        {totalPages > 1 && (
+          <Center mt={50}>
+            <Pagination
+              total={totalPages}
+              value={page}
+              onChange={setPage}
+              siblings={4}
+              boundaries={0}
+              withControls
+              radius="md"
+              size="lg"
+              color="cyan"
+              styles={{
+                control: {
+                  border: '1px solid #e0e0e0',
+                  backgroundColor: '#fff',
+                  color: '#333',
+                  fontWeight: 500,
+                  minWidth: 40,
+                  height: 40,
+                  '&[data-active]': {
+                    backgroundColor: '#22d3ee',
+                    color: 'white',
+                    borderColor: '#22d3ee',
+                    fontWeight: 700,
+                  },
+                  '&[data-disabled]': {
+                    opacity: 0.5,
+                    cursor: 'not-allowed',
+                  },
+                },
+                dots: {
+                  color: '#999',
+                },
+              }}
+            />
+          </Center>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default CardDetail;

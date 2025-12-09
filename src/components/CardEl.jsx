@@ -1,6 +1,13 @@
 import { Badge, Card, Image, Text } from '@mantine/core';
+import BookImg from '../assets/images/book-image.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const CardEl = ({ post }) => {
+  const navigate = useNavigate();
+
+  const handleNavigate = (id) => {
+    navigate(`/bookDetail/${id}`);
+  };
   return (
     <Card
       shadow="md"
@@ -19,10 +26,12 @@ const CardEl = ({ post }) => {
     >
       <Card.Section>
         <Image
-          src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60"
+          src={BookImg}
+          onClick={() => handleNavigate(post.id)}
           height={180}
           fit="cover"
           alt={post.name}
+          className="book-card-img"
         />
       </Card.Section>
 
