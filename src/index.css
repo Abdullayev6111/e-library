@@ -309,3 +309,35 @@ footer {
   background-color: white;
   margin: 30px auto;
 }
+
+.library {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 0;
+  gap: 30px;
+}
+.lib-title {
+  text-align: center;
+  font-family: cairo-b;
+  font-size: 36px;
+  margin-top: 30px;
+}
+
+.library-left {
+  width: 20%;
+  height: 250px;
+}
+
+.library-right-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.fa-book,
+.fa-telegram,
+.fa-phone,
+.fa-location-dot {
+  color: #00aeff;
+}

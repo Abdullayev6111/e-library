@@ -33,6 +33,9 @@ const CardEl = ({ post }) => {
           alt={post.name}
           className="book-card-img"
         />
+        <Badge style={{ position: 'absolute', top: 10, right: 10 }} color="orange">
+          O'qilgan
+        </Badge>
       </Card.Section>
 
       <div>
