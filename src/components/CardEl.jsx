@@ -1,8 +1,10 @@
 import { Badge, Card, Image, Text } from '@mantine/core';
 import BookImg from '../assets/images/book-image.jpg';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const CardEl = ({ post }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleNavigate = (id) => {
@@ -34,7 +36,7 @@ const CardEl = ({ post }) => {
           className="book-card-img"
         />
         <Badge style={{ position: 'absolute', top: 10, right: 10 }} color="orange">
-          O'qilgan
+          {t('card.readed')}
         </Badge>
       </Card.Section>
 
@@ -44,11 +46,11 @@ const CardEl = ({ post }) => {
         </Text>
 
         <Text size="sm" c="dimmed" mt={8} style={{ fontFamily: 'cairo-m' }}>
-          Muallif: {post.author}
+          {t('card.author')}: {post.author}
         </Text>
 
         <Text size="sm" c="dimmed" mt={4} style={{ fontFamily: 'cairo-m' }}>
-          Nashriyot: {post.publisher}
+          {t('card.publisher')}: {post.publisher}
         </Text>
       </div>
 
@@ -63,7 +65,7 @@ const CardEl = ({ post }) => {
           fontFamily: 'cairo-b',
         }}
       >
-        {post.quantity_in_library} TA KITOB MAVJUD
+        {post.quantity_in_library} {t('card.bookQuantity')}
       </Badge>
     </Card>
   );

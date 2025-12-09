@@ -8,7 +8,8 @@
   "home": {
     "title": "Kitoblar bir joyda - qidiruvni shu yerdan boshlang",
     "SearchBtn": "Qidirish",
-    "placeholder": "Kitob nomi, muallif nomi"
+    "placeholder": "Kitob nomi, muallif nomi",
+    "mostRead": "Eng ko'p o'qilgan kitoblar"
   },
   "footer": {
     "top": {
@@ -28,5 +29,26 @@
       "privacy": "Maxfiylik siyosati",
       "terms": "Foydalanish shartlari"
     }
+  },
+  "card": {
+    "readed": "O'qilgan",
+    "author": "Muallif",
+    "publisher": "Nashriyot",
+    "bookQuantity": "TA KITOB MAVJUD"
+  },
+  "cardDetail": {
+    "bookQuantity": "Kitoblar soni",
+    "allBooks": "Barcha kitoblar"
+  },
+  "libraryCard": {
+    "active": "Faol",
+    "libraryName": "Kutubxona nomi",
+    "address": "Manzil",
+    "phone": "Telefon Raqam",
+    "createdAt": "Tashkil etilgan",
+    "availableBooks": "Mavjud Kitoblar",
+    "noAdded": "Bu kutubxonada hali kitoblar qo'shilmagan",
+    "pcs": "dona",
+    "have": "Mavjud"
   }
 }

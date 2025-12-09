@@ -6,8 +6,10 @@ import { IconUser, IconBook, IconBooks } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Pagination, Center } from '@mantine/core';
 import CardEl from './CardEl';
+import { useTranslation } from 'react-i18next';
 
 const CardDetail = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const { data: bookData, error } = useQuery({
     queryKey: ['bookDetail', id],
@@ -65,21 +67,21 @@ const CardDetail = () => {
               <Group gap="sm" align="center">
                 <IconUser size={18} color="#666" />
                 <Text size="sm" c="dimmed">
-                  Muallif: {bookData?.author}
+                  {t('card.author')}: {bookData?.author}
                 </Text>
               </Group>
 
               <Group gap="sm" align="center">
                 <IconBook size={18} color="#666" />
                 <Text size="sm" c="dimmed">
-                  Nashriyotchi: {bookData?.publisher}
+                  {t('card.publisher')}: {bookData?.publisher}
                 </Text>
               </Group>
 
               <Group gap="sm" align="center">
                 <IconBooks size={18} color="#666" />
                 <Text size="sm" c="dimmed">
-                  Kitoblar soni: {bookData?.quantity_in_library}
+                  {t('cardDetail.bookQuantity')}: {bookData?.quantity_in_library}
                 </Text>
               </Group>
             </Stack>
@@ -88,7 +90,7 @@ const CardDetail = () => {
       </div>
       <div className="all-books">
         <h1 style={{ fontFamily: 'cairo-b', paddingBottom: 10, fontSize: 28, color: 'teal' }}>
-          Barcha kitoblar
+          {t('cardDetail.allBooks')}
         </h1>
         <div className="detail-all-books">
           {currentBooks.map((book) => (

@@ -21,8 +21,10 @@ import { useParams } from 'react-router-dom';
 import { IconBook, IconMapPin, IconPhone, IconCalendar } from '@tabler/icons-react';
 import LibraryImg from '../assets/images/library-img.jpg';
 import BookImg from '../assets/images/book-image.jpg';
+import { useTranslation } from 'react-i18next';
 
 const LibrariesDetail = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
 
   const { data: libraryData, isLoading } = useQuery({
@@ -78,7 +80,7 @@ const LibrariesDetail = () => {
             <Stack gap="xl">
               <div>
                 <Title order={1} size={42} fw={900} c="dark">
-                  {library?.name || 'Kutubxona Nomi'}
+                  {library?.name || t('libraryCard.libraryName')}
                 </Title>
               </div>
 
@@ -88,7 +90,7 @@ const LibrariesDetail = () => {
                 <Grid.Col span={{ base: 12, sm: 6 }}>
                   <Stack gap={6}>
                     <Text size="xs" c="dimmed" fw={700} tt="uppercase">
-                      Manzil
+                      {t('libraryCard.address')}
                     </Text>
                     <Group gap="xs">
                       <IconMapPin size={18} color="#00aeff" />
@@ -102,7 +104,7 @@ const LibrariesDetail = () => {
                 <Grid.Col span={{ base: 12, sm: 6 }}>
                   <Stack gap={6}>
                     <Text size="xs" c="dimmed" fw={700} tt="uppercase">
-                      Telefon Raqam
+                      {t('libraryCard.phone')}
                     </Text>
                     <Group gap="xs">
                       <IconPhone size={18} color="#00aeff" />
@@ -116,7 +118,7 @@ const LibrariesDetail = () => {
                 <Grid.Col span={{ base: 12, sm: 6 }}>
                   <Stack gap={6}>
                     <Text size="xs" c="dimmed" fw={700} tt="uppercase">
-                      Tashkil etilgan
+                      {t('libraryCard.createdAt')}
                     </Text>
                     <Group gap="xs">
                       <IconCalendar size={18} color="#00aeff" />
@@ -129,7 +131,7 @@ const LibrariesDetail = () => {
                 <Grid.Col span={{ base: 12, sm: 6 }}>
                   <Stack gap={6}>
                     <Text size="xs" c="dimmed" fw={700} tt="uppercase">
-                      Kitoblar soni:
+                      {t('cardDetail.bookQuantity')}:
                     </Text>
                     <Group gap="xs">
                       <IconBook size={18} color="#00aeff" />
@@ -149,14 +151,14 @@ const LibrariesDetail = () => {
 
       <Stack mt={100} align="center">
         <Title order={2} size={36} fw={800} ta="center" c="dark">
-          Mavjud Kitoblar ({books.length} ta)
+          {t('libraryCard.availableBooks')} ({books.length} ta)
         </Title>
 
         {books.length === 0 ? (
           <Paper withBorder radius="lg" p="xl" shadow="md" mt="lg" maw={700} w="100%">
             <Center h={120}>
               <Text size="lg" c="dimmed" fw={500}>
-                Bu kutubxonada hali kitoblar qo'shilmagan.
+                {t('libraryCard.noAdded')}
               </Text>
             </Center>
           </Paper>
@@ -189,7 +191,7 @@ const LibrariesDetail = () => {
 
                   <Group gap={8}>
                     <Text size="sm" c="dimmed">
-                      Muallif:
+                      {t('card.author')}:
                     </Text>
                     <Text size="sm" fw={500} lineClamp={1}>
                       {book.author || "Noma'lum"}
@@ -198,7 +200,7 @@ const LibrariesDetail = () => {
 
                   <Group gap={8}>
                     <Text size="sm" c="dimmed">
-                      Nashriyot:
+                      {t('card.publisher')}:
                     </Text>
                     <Text size="sm" fw={500} lineClamp={1}>
                       {book.publisher || "Noma'lum"}
@@ -211,11 +213,11 @@ const LibrariesDetail = () => {
                         <IconBook size={14} />
                       </ThemeIcon>
                       <Badge color="blue" variant="light" size="lg" radius="md">
-                        {book.quantity_in_library} dona
+                        {book.quantity_in_library} {t('libraryCard.pcs')}
                       </Badge>
                     </Group>
                     <Badge color="green" variant="dot" size="md" radius="md">
-                      Mavjud
+                      {t('libraryCard.have')}
                     </Badge>
                   </Group>
                 </Stack>

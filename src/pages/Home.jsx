@@ -39,7 +39,7 @@ const Home = () => {
 
       <div className="carousel-element">
         <div className="carousel-top">
-          <h1>Eng ko'p o'qilgan kitoblar</h1>
+          <h1>{t('home.mostRead')}</h1>
         </div>
         <Carousel
           withControls={false}

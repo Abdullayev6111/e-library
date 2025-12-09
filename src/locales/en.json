@@ -8,7 +8,8 @@
   "home": {
     "title": "Books in one place - start your search here",
     "SearchBtn": "Search",
-    "placeholder": "Book title, author's name"
+    "placeholder": "Book title, author's name",
+    "mostRead": "Most Read Books"
   },
   "footer": {
     "top": {
@@ -28,5 +29,26 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of use"
     }
+  },
+  "card": {
+    "readed": "Read",
+    "author": "Author",
+    "publisher": "Publisher",
+    "bookQuantity": "BOOKS AVAILABLE"
+  },
+  "cardDetail": {
+    "bookQuantity": "Number of Books",
+    "allBooks": "All Books"
+  },
+  "libraryCard": {
+    "active": "Active",
+    "libraryName": "Library Name",
+    "address": "Address",
+    "phone": "Phone Number",
+    "createdAt": "Established",
+    "availableBooks": "Available Books",
+    "noAdded": "No books have been added to this library yet",
+    "pcs": "Piece",
+    "have": "Available"
   }
 }

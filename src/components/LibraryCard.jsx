@@ -1,9 +1,11 @@
 import { Badge, Card, Image, Text } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import LibraryImg from '../assets/images/library-img.jpg';
+import { useTranslation } from 'react-i18next';
 
 const LibraryCard = ({ library, phone, telegram }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Card
@@ -24,7 +26,7 @@ const LibraryCard = ({ library, phone, telegram }) => {
       <Card.Section>
         <Image src={LibraryImg} height={200} fit="cover" alt={library.name} />
         <Badge color="green" style={{ position: 'absolute', top: 10, right: 10 }}>
-          Faol
+          {t('libraryCard.active')}
         </Badge>
       </Card.Section>
 
@@ -59,7 +61,7 @@ const LibraryCard = ({ library, phone, telegram }) => {
         </Text>
 
         <Text size="sm" c="dimmed" mt={4} lineClamp={1}>
-          <i className="fa-solid fa-location-dot"></i> {library.address || 'Manzil ko‘rsatilmagan'}
+          <i className="fa-solid fa-location-dot"></i> {library.address || "Manzil ko'rsatilmagan"}
         </Text>
       </div>
     </Card>
