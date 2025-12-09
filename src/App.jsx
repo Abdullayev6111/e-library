@@ -5,6 +5,7 @@ import Libraries from './pages/Libraries';
 import Books from './pages/Books';
 import '@mantine/carousel/styles.css';
 import CardDetail from './components/CardDetail';
+import LibrariesDetail from './pages/LibraryDetail';
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/libraries" element={<Libraries />} />
+        <Route path="/libraryDetail/:id" element={<LibrariesDetail />} />
         <Route path="/books" element={<Books />} />
         <Route path="/bookDetail/:id" element={<CardDetail />} />
       </Route>

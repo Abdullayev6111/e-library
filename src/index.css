@@ -327,6 +327,8 @@ footer {
 .library-left {
   width: 20%;
   height: 250px;
+  position: sticky;
+  top: 85px;
 }
 
 .library-right-cards {
