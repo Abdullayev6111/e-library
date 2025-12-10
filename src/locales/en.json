@@ -9,7 +9,9 @@
     "title": "Books in one place - start your search here",
     "SearchBtn": "Search",
     "placeholder": "Book title, author's name",
-    "mostRead": "Most Read Books"
+    "mostRead": "Most Read Books",
+    "noResults": "No books found!",
+    "details": "Details"
   },
   "footer": {
     "top": {

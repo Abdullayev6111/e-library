@@ -9,7 +9,9 @@
     "title": "Kitoblar bir joyda - qidiruvni shu yerdan boshlang",
     "SearchBtn": "Qidirish",
     "placeholder": "Kitob nomi, muallif nomi",
-    "mostRead": "Eng ko'p o'qilgan kitoblar"
+    "mostRead": "Eng ko'p o'qilgan kitoblar",
+    "noResults": "Hech qanday kitob topilmadi!",
+    "details": "Batafsil"
   },
   "footer": {
     "top": {
