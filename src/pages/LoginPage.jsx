@@ -49,7 +49,7 @@ const LoginPage = () => {
 
   const handleSubmit = (values) => {
     loginMut({
-      phone: String(values.phone),
+      phone: values.phone.replace(/[+\s()-]/g, ''),
       password: String(values.password),
     });
   };
@@ -89,7 +89,10 @@ const LoginPage = () => {
                 mask="+998 (00) 000-00-00"
                 placeholder="+998 (00) 000-00-00"
                 {...form.getInputProps('phone')}
-                onAccept={(value) => form.setFieldValue('phone', String(value))}
+                onAccept={(value) => {
+                  const cleaned = value.replace(/[+\s()-]/g, '');
+                  form.setFieldValue('phone', cleaned || value);
+                }}
               />
             </Input.Wrapper>
             <PasswordInput

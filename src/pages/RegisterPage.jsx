@@ -109,7 +109,7 @@ const RegisterPage = () => {
     const payload = {
       user: {
         name: values.name.trim(),
-        phone: values.phone,
+        phone: values.phone.replace(/[+\s-()]/g, ''),
         password: values.password,
       },
       library: {
@@ -120,8 +120,8 @@ const RegisterPage = () => {
           telegram: values.telegram ? values.telegram.replace('@', '') : null,
         },
         can_rent_books: hasLibrary,
-        latitude: String(location[0]),
-        longitude: String(location[1]),
+        latitude: location[0],
+        longitude: location[1],
       },
     };
 
@@ -134,13 +134,8 @@ const RegisterPage = () => {
       });
       navigate('/login');
     } catch (err) {
-      const msg =
-        err.response?.data?.message ||
-        err.response?.data ||
-        "Ro'yxatdan o'tishda xatolik yuz berdi";
       notifications.show({
-        title: 'Xato',
-        message: Array.isArray(msg) ? msg.join(', ') : msg,
+        title: err.message || 'Xato',
         color: 'red',
       });
     } finally {
