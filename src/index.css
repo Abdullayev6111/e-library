@@ -410,6 +410,10 @@ footer {
   margin-top: 10px;
 }
 
+/* Login page end */
+
+/* Register page start */
+
 .register-link {
   color: #00aeff;
   text-decoration: none;
@@ -418,3 +422,5 @@ footer {
 .register-link:hover {
   text-decoration: underline;
 }
+
+/* Register page end */
