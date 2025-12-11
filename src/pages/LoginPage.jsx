@@ -9,7 +9,6 @@ import { useMutation } from '@tanstack/react-query';
 import API from './../api/Api';
 
 const LoginPage = () => {
-  const { login } = useAuthStore();
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {
@@ -28,7 +27,8 @@ const LoginPage = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      login(data);
+      useAuthStore.getState().setToken(data.access);
+      useAuthStore.getState().setUser(data.user);
 
       notifications.show({
         title: 'Muvaffaqiyatli!',

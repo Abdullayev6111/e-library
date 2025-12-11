@@ -7,6 +7,7 @@ import LibrariesDetail from './pages/LibraryDetail';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFound from './pages/NotFound';
+import Profile from './pages/Profile';
 import '@mantine/carousel/styles.css';
 import '@mantine/notifications/styles.css';
 
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/libraryDetail/:id" element={<LibrariesDetail />} />
         <Route path="/bookDetail/:id" element={<CardDetail />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/profile" element={<Profile />} />
       </Route>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
