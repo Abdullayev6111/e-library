@@ -24,7 +24,7 @@ const Home = () => {
 
   const { data, error } = useQuery({
     queryKey: ['books'],
-    queryFn: () => API.get('/books/books/').then((res) => res.data),
+    queryFn: () => API.get('/api/v1/books/books/').then((res) => res.data),
   });
 
   const results = useMemo(() => {

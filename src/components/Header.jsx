@@ -21,7 +21,9 @@ const Header = () => {
         </div>
         <div className="header-right">
           <LanguageSelect />
-          <button className="login-btn">{t('header.loginBtn')}</button>
+          <Link to="/login">
+            <button className="login-btn">{t('header.loginBtn')}</button>
+          </Link>
         </div>
       </div>
     </header>

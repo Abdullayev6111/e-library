@@ -13,12 +13,12 @@ const CardDetail = () => {
   const { id } = useParams();
   const { data: bookData, error } = useQuery({
     queryKey: ['bookDetail', id],
-    queryFn: () => API.get(`/books/book/${id}/`).then((res) => res.data),
+    queryFn: () => API.get(`/api/v1/books/book/${id}/`).then((res) => res.data),
   });
 
   const { data: allBooks } = useQuery({
     queryKey: ['books'],
-    queryFn: () => API.get('/books/books/').then((res) => res.data),
+    queryFn: () => API.get('/api/v1/books/books/').then((res) => res.data),
   });
 
   if (error) {
@@ -30,9 +30,9 @@ const CardDetail = () => {
 
   const startIndex = (page - 1) * booksPerPage;
   const endIndex = startIndex + booksPerPage;
-  const currentBooks = allBooks.slice(startIndex, endIndex);
+  const currentBooks = allBooks ? allBooks.slice(startIndex, endIndex) : [];
 
-  const totalPages = Math.ceil(allBooks.length / booksPerPage);
+  const totalPages = allBooks ? Math.ceil(allBooks.length / booksPerPage) : 0;
 
   return (
     <div className="container book-deail">
@@ -118,13 +118,13 @@ const CardDetail = () => {
                   fontWeight: 500,
                   minWidth: 40,
                   height: 40,
-                  '&[data-active]': {
+                  '&[dataActive]': {
                     backgroundColor: '#22d3ee',
                     color: 'white',
                     borderColor: '#22d3ee',
                     fontWeight: 700,
                   },
-                  '&[data-disabled]': {
+                  '&[dataDisabled]': {
                     opacity: 0.5,
                     cursor: 'not-allowed',
                   },

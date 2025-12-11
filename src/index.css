@@ -354,3 +354,58 @@ footer {
 .fa-location-dot {
   color: #00aeff;
 }
+
+/* Login page start */
+
+.login {
+  width: 100%;
+  max-height: 100vh;
+  height: 100%;
+  display: flex;
+}
+
+.login-page {
+  width: 50%;
+  height: 100vh;
+  padding: 20px 40px;
+}
+
+.login-page form {
+  width: 70%;
+}
+
+.login-page form input {
+  height: 50px;
+}
+
+.login-page form label {
+  font-size: 20px;
+  color: #010101ab;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.login-left {
+  width: 50%;
+  height: 100vh;
+  background: #00aeff;
+}
+
+.login-left img {
+  width: 60%;
+  margin: 18% 20%;
+}
+
+.login-page p {
+  font-family: cairo-m;
+  font-size: 18px;
+  color: grey;
+  margin-top: 10px;
+}
+
+.login-page h1 {
+  font-family: cairo-b;
+  font-size: 38px;
+  color: #010101;
+  margin-top: 10px;
+}
