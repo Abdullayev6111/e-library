@@ -13,12 +13,12 @@ const CardDetail = () => {
   const { id } = useParams();
   const { data: bookData, error } = useQuery({
     queryKey: ['bookDetail', id],
-    queryFn: () => API.get(`/api/v1/books/book/${id}/`).then((res) => res.data),
+    queryFn: () => API.get(`/books/book/${id}/`).then((res) => res.data),
   });
 
   const { data: allBooks } = useQuery({
     queryKey: ['books'],
-    queryFn: () => API.get('/api/v1/books/books/').then((res) => res.data),
+    queryFn: () => API.get('/books/books/').then((res) => res.data),
   });
 
   if (error) {

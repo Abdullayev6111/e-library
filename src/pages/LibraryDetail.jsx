@@ -29,7 +29,7 @@ const LibrariesDetail = () => {
 
   const { data: libraryData, isLoading } = useQuery({
     queryKey: ['library', id],
-    queryFn: () => API.get(`/api/v1/libraries/library/${id}`).then((res) => res.data),
+    queryFn: () => API.get(`/libraries/library/${id}`).then((res) => res.data),
   });
 
   const library = libraryData?.results?.library;

@@ -1,4 +1,4 @@
-import { Button, Input, PasswordInput } from '@mantine/core';
+import { Button, Flex, Input, PasswordInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IMaskInput } from 'react-imask';
 import { Link, useNavigate } from 'react-router-dom';
@@ -24,7 +24,7 @@ const LoginPage = () => {
 
   const { mutate: loginMut, isPending } = useMutation({
     mutationFn: async (body) => {
-      const res = await API.post('/api/v1/auth/login/', body);
+      const res = await API.post('/auth/login/', body);
       return res.data;
     },
     onSuccess: (data) => {
@@ -117,11 +117,14 @@ const LoginPage = () => {
               {isPending ? 'Tizimga kirish' : 'Tizimga kirish'}
             </Button>
           </form>
-          <div>
+          <Flex gap={10} align="center" style={{ marginTop: 20, marginLeft: 100 }}>
             <p>
-              Hisobingiz yo'qmi? <Link to="/register">Ro'yxatdan o'tish</Link>
+              Hisobingiz yo'qmi?{' '}
+              <Link className="register-link" to="/register">
+                Ro'yxatdan o'tish
+              </Link>
             </p>
-          </div>
+          </Flex>
         </div>
       </div>
     </div>

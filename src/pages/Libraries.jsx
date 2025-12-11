@@ -22,7 +22,7 @@ const Libraaries = () => {
   const { data: libraries = [], isLoading } = useQuery({
     queryKey: ['libraries'],
     queryFn: () =>
-      API.get('/api/v1/libraries/libraries/').then((res) => {
+      API.get('/libraries/libraries/').then((res) => {
         if (Array.isArray(res.data)) {
           return res.data;
         }
