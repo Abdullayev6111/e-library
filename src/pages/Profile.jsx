@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Avatar,
   Text,
@@ -13,6 +13,9 @@ import {
   Center,
   TextInput,
   Switch,
+  Tabs,
+  Card,
+  Box,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
@@ -26,12 +29,154 @@ import {
   IconBrandInstagram,
   IconBrandFacebook,
   IconBrandTelegram,
+  IconBook,
+  IconShare,
 } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import {
+  YMaps,
+  Map,
+  Placemark,
+  FullscreenControl,
+  ZoomControl,
+  TypeSelector,
+} from '@pbe/react-yandex-maps';
 import API from '../api/Api';
 import useAuthStore from '../store/useAuthStore';
 import BookReader from '../assets/images/book-reader.jpg';
+
+/**
+ * @param {{id: number, title: string, author: string}[]} books - Kitoblar massivi.
+ */
+function BooksSection({ books }) {
+  if (!books || books.length === 0) {
+    return <Text c="dimmed">Kitoblar ro'yxati mavjud emas.</Text>;
+  }
+
+  return (
+    <Stack>
+      {books.map((b) => (
+        <Card key={b.id} withBorder radius="md">
+          <Text fw={600}>{b.title}</Text>
+          <Text size="sm" c="dimmed">
+            {b.author}
+          </Text>
+        </Card>
+      ))}
+    </Stack>
+  );
+}
+
+/**
+ * @param {{telegram: string, instagram: string, facebook: string}} social - Ijtimoiy tarmoq havolalari.
+ */
+function SocialSection({ social }) {
+  if (!social || (!social.telegram && !social.instagram && !social.facebook)) {
+    return <Text c="dimmed">Ijtimoiy tarmoqlar kiritilmagan.</Text>;
+  }
+
+  return (
+    <Stack>
+      {social?.telegram && (
+        <Button
+          component="a"
+          href={social.telegram}
+          target="_blank"
+          leftSection={<IconBrandTelegram />}
+          variant="light"
+          color="blue"
+        >
+          Telegram
+        </Button>
+      )}
+      {social?.instagram && (
+        <Button
+          component="a"
+          href={social.instagram}
+          target="_blank"
+          leftSection={<IconBrandInstagram />}
+          variant="light"
+          color="pink"
+        >
+          Instagram
+        </Button>
+      )}
+      {social?.facebook && (
+        <Button
+          component="a"
+          href={social.facebook}
+          target="_blank"
+          leftSection={<IconBrandFacebook />}
+          variant="light"
+          color="indigo"
+        >
+          Facebook
+        </Button>
+      )}
+    </Stack>
+  );
+}
+
+/**
+ * @param {string} address - Manzil matni.
+ * @param {[number, number]} coords - Manzil koordinatalari [latitude, longitude].
+ */
+function MapSection({ address, coords }) {
+  const location = coords;
+
+  if (!location || location.length !== 2 || typeof location[0] !== 'number') {
+    return <Text c="dimmed">Xarita mavjud emas (manzil koordinatalari kiritilmagan).</Text>;
+  }
+
+  const API_KEY = import.meta.env.VITE_YANDEX_MAPS_API_KEY;
+
+  return (
+    <Stack>
+      <Text size="md" fw={500}>
+        Manzil: **{address || 'Kiritilmagan'}**
+      </Text>
+
+      <Box
+        mt="lg"
+        style={{
+          width: '100%',
+          height: 450,
+          border: '2px solid #e0e0e0',
+          borderRadius: 12,
+          overflow: 'hidden',
+        }}
+      >
+        <YMaps query={API_KEY ? { apikey: API_KEY } : {}}>
+          <Map
+            width="100%"
+            height="100%"
+            defaultState={{
+              center: location,
+              zoom: 16,
+            }}
+          >
+            <Placemark
+              geometry={location}
+              properties={{
+                hintContent: 'Foydalanuvchi joylashuvi',
+                balloonContent: address || 'Kiritilgan manzil',
+              }}
+              options={{
+                draggable: false,
+                preset: 'islands#blueDotIcon',
+              }}
+            />
+
+            <FullscreenControl />
+            <ZoomControl options={{ float: 'right' }} />
+            <TypeSelector options={{ float: 'right' }} />
+          </Map>
+        </YMaps>
+      </Box>
+    </Stack>
+  );
+}
 
 export default function Profile() {
   const [editModalOpened, setEditModalOpened] = useState(false);
@@ -45,6 +190,17 @@ export default function Profile() {
     queryFn: () => API.get('/auth/profile/').then((res) => res.data),
   });
 
+  const coordinates = useMemo(() => {
+    if (user && user.latitude && user.longitude) {
+      const lat = parseFloat(user.latitude);
+      const lon = parseFloat(user.longitude);
+      if (!isNaN(lat) && !isNaN(lon)) {
+        return [lat, lon];
+      }
+    }
+    return null;
+  }, [user]);
+
   const form = useForm({
     initialValues: {
       address: '',
@@ -55,7 +211,7 @@ export default function Profile() {
     },
   });
 
-  if (user && form.values.address === '' && user.address) {
+  if (user && form.values.address === '' && user.address !== undefined) {
     form.setValues({
       address: user.address || '',
       can_rent_books: user.can_rent_books ?? true,
@@ -89,7 +245,7 @@ export default function Profile() {
     onError: () => {
       notifications.show({
         title: 'Xatolik',
-        message: 'Maʼlumotlarni yangilab boʻlmadi',
+        message: 'Yangilab bo‘lmadi',
         color: 'red',
         icon: <IconX />,
       });
@@ -103,15 +259,11 @@ export default function Profile() {
       navigate('/login', { replace: true });
     },
     onError: () => {
-      notifications.show({
-        title: 'Ogohlantirish',
-        message: 'Serverda xatolik, tizimdan chiqildi',
-        color: 'yellow',
-      });
       logoutStore();
       navigate('/login', { replace: true });
     },
   });
+
   if (isLoading) {
     return (
       <Center h="80vh">
@@ -120,52 +272,56 @@ export default function Profile() {
     );
   }
 
+  if (!user || !user.user) {
+    return (
+      <Center h="80vh">
+        <Text>Profil ma'lumotlari yuklanmadi.</Text>
+      </Center>
+    );
+  }
+
+  const rentStatus = user.can_rent_books ? 'Kitob ijarasi mavjud' : 'Kitob ijarasi mavjud emas';
+  const mockBooks = user.books || [];
+
   return (
     <>
-      <Paper shadow="sm" p="lg" m={'xl'} radius="md" withBorder>
-        <Group justify="space-between" align="flex-start">
+      <Paper shadow="sm" p="lg" m="xl" radius="md" withBorder>
+        <Group justify="space-between">
           <Group>
-            <Avatar size={120} radius={120}>
-              <img
-                src={BookReader}
-                alt="Profile"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </Avatar>
-            <Stack gap={6}>
+            <Avatar size={120} radius={120} src={BookReader} />
+            <Stack gap={4}>
               <Text size="xl" fw={700}>
-                <i style={{ color: '#00aeff' }} className="fa-regular fa-user"></i>{' '}
-                {user?.user.name}
+                {user.user.name}
               </Text>
-              <Text size="lg" c="blue">
-                <i style={{ color: '#00aeff' }} className="fa-solid fa-phone"></i> +
-                {user?.user.phone}
-              </Text>
-              {(user?.address || user?.address === '') && (
+              <Text c="blue">+{user.user.phone}</Text>
+              <Group gap="xs">
+                <IconMapPin size={16} />
                 <Text size="sm" c="dimmed">
-                  <i style={{ color: '#00aeff' }} className="fa-solid fa-location-dot"></i>{' '}
                   {user.address || 'Manzil kiritilmagan'}
                 </Text>
-              )}
+              </Group>
+              <Group gap="xs">
+                <IconBook size={16} />
+                <Text size="sm" c={user.can_rent_books ? 'teal' : 'red'}>
+                  {rentStatus}
+                </Text>
+              </Group>
             </Stack>
           </Group>
 
-          <Menu shadow="md" width={200}>
+          <Menu>
             <Menu.Target>
-              <ActionIcon size="lg" variant="filled" color="blue">
-                <IconSettings size={22} />
+              <ActionIcon size="lg" variant="filled">
+                <IconSettings />
               </ActionIcon>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item
-                leftSection={<IconEdit size={16} />}
-                onClick={() => setEditModalOpened(true)}
-              >
+              <Menu.Item leftSection={<IconEdit />} onClick={() => setEditModalOpened(true)}>
                 Tahrirlash
               </Menu.Item>
               <Menu.Item
-                leftSection={<IconLogout size={16} />}
                 color="red"
+                leftSection={<IconLogout />}
                 onClick={() => setLogoutModalOpened(true)}
               >
                 Chiqish
@@ -176,62 +332,72 @@ export default function Profile() {
       </Paper>
 
       <Paper shadow="sm" p="lg" m="xl" radius="md" withBorder>
-        <Text size="lg" fw={600} mb="md">
-          Kitoblarim
-        </Text>
-        <Text c="dimmed">Kitob topilmadi</Text>
+        <Tabs defaultValue="books">
+          <Tabs.List>
+            <Tabs.Tab value="books" leftSection={<IconBook size={16} />}>
+              Kitoblarim
+            </Tabs.Tab>
+            <Tabs.Tab value="social" leftSection={<IconShare size={16} />}>
+              Tarmoqlarim
+            </Tabs.Tab>
+            <Tabs.Tab value="map" leftSection={<IconMapPin size={16} />}>
+              Xarita
+            </Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="books" pt="md">
+            <BooksSection books={mockBooks} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="social" pt="md">
+            <SocialSection social={user.social_media} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="map" pt="md">
+            <MapSection address={user.address} coords={coordinates} />
+          </Tabs.Panel>
+        </Tabs>
       </Paper>
 
       <Modal
         opened={editModalOpened}
         onClose={() => setEditModalOpened(false)}
         title="Profilni tahrirlash"
-        size="md"
         centered
       >
-        <form onSubmit={form.onSubmit((values) => updateMutation.mutate(values))}>
-          <Stack gap="md">
+        <form onSubmit={form.onSubmit((v) => updateMutation.mutate(v))}>
+          <Stack>
             <TextInput
-              label="Manzil"
-              placeholder="Chilonzor"
-              leftSection={<IconMapPin size={18} />}
-              required
+              label="Manzil (joy nomi)"
+              leftSection={<IconMapPin />}
+              placeholder="Masalan: Chilonzor"
               {...form.getInputProps('address')}
             />
-
             <Switch
-              label="Kitob ijarasi"
-              description="Kitob ijarasi mavjud emas"
-              onLabel="Mavjud"
-              offLabel="Yoʻq"
-              size="lg"
+              label="Kitoblarni ijaraga bera olaman"
               {...form.getInputProps('can_rent_books', { type: 'checkbox' })}
             />
 
-            <Text fw={500} size="sm" mt="lg">
-              Ijtimoiy tarmoqlar
+            <Text fw={600} size="sm" mt="sm">
+              Ijtimoiy tarmoq havolalari
             </Text>
-
             <TextInput
-              placeholder="Instagram"
-              leftSection={<IconBrandInstagram size={20} style={{ color: '#E4405F' }} />}
+              placeholder="https://t.me/username"
+              leftSection={<IconBrandTelegram />}
+              {...form.getInputProps('telegram')}
+            />
+            <TextInput
+              placeholder="https://instagram.com/username"
+              leftSection={<IconBrandInstagram />}
               {...form.getInputProps('instagram')}
             />
             <TextInput
-              placeholder="Facebook"
-              leftSection={<IconBrandFacebook size={20} style={{ color: '#1877F2' }} />}
+              placeholder="https://facebook.com/username"
+              leftSection={<IconBrandFacebook />}
               {...form.getInputProps('facebook')}
             />
-            <TextInput
-              placeholder="https://t.me/username"
-              leftSection={<IconBrandTelegram size={20} style={{ color: '#0088CC' }} />}
-              {...form.getInputProps('telegram')}
-            />
 
-            <Group justify="apart" mt="xl">
-              <Button variant="default" onClick={() => setEditModalOpened(false)}>
-                Bekor qilish
-              </Button>
+            <Group justify="flex-end" mt="md">
               <Button type="submit" loading={updateMutation.isPending}>
                 Saqlash
               </Button>
@@ -243,21 +409,20 @@ export default function Profile() {
       <Modal
         opened={logoutModalOpened}
         onClose={() => setLogoutModalOpened(false)}
-        title="Chiqish"
+        title="Tizimdan chiqish"
         centered
-        size="sm"
       >
-        <Text>Haqiqatan ham chiqmoqchimisiz?</Text>
-        <Group justify="flex-end" mt="xl">
+        <Text>Tizimdan chiqishni tasdiqlaysizmi?</Text>
+        <Group justify="flex-end" mt="md">
           <Button variant="default" onClick={() => setLogoutModalOpened(false)}>
-            Yoʻq
+            Yo‘q
           </Button>
           <Button
             color="red"
-            onClick={() => logoutMutation.mutate()}
             loading={logoutMutation.isPending}
+            onClick={() => logoutMutation.mutate()}
           >
-            Ha, chiqish
+            Ha
           </Button>
         </Group>
       </Modal>
