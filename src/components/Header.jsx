@@ -20,7 +20,7 @@ const Header = () => {
           </Link>
           <NavLink to="/">{t('header.mainPage')}</NavLink>
           <NavLink to="/libraries">{t('header.libraries')}</NavLink>
-          <NavLink to="/books">{t('header.books')}</NavLink>
+          {isAuth && <NavLink to="/books">{t('header.books')}</NavLink>}
         </div>
 
         <div className="header-right">

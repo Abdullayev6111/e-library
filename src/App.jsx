@@ -8,8 +8,10 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
+import Book from './pages/Book';
 import '@mantine/carousel/styles.css';
 import '@mantine/notifications/styles.css';
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
   return (
@@ -21,7 +23,12 @@ const App = () => {
         <Route path="/bookDetail/:id" element={<CardDetail />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/profile" element={<Profile />} />
+
+        <Route element={<PrivateRoute />}>
+          <Route path="/books" element={<Book />} />
+        </Route>
       </Route>
+
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
     </Routes>

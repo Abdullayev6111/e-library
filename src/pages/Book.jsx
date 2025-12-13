@@ -7,7 +7,6 @@ import {
   Center,
   Loader,
   Paper,
-  Flex,
   Modal,
   Button,
   TextInput,
@@ -15,8 +14,9 @@ import {
   FileInput,
   Group,
   ScrollArea,
+  Box,
+  Stack,
 } from '@mantine/core';
-import { rem } from '@mantine/core';
 import {
   IconSearch,
   IconAlertCircle,
@@ -30,17 +30,18 @@ import { FaBookMedical } from 'react-icons/fa';
 import { LuPlus } from 'react-icons/lu';
 import { MdOutlineFileDownload } from 'react-icons/md';
 import { Menu } from '@mantine/core';
-import BookCard from '../../components/bookCard/BookCard';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { API } from '../../api/api';
+import CardEl from '../components/CardEl';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import API from '../api/Api';
 import { useRef, useState } from 'react';
+import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
-import { queryClient } from '../../main';
 import useAuthStore from '../store/useAuthStore';
 
 const Book = () => {
   const [search, setSearch] = useState('');
   const { isAuth } = useAuthStore();
+  const queryClient = useQueryClient();
 
   const [openedSingleModal, { open: openSingle, close: closeSingle }] = useDisclosure(false);
   const [openedFileModal, { open: openFile, close: closeFile }] = useDisclosure(false);
@@ -57,6 +58,95 @@ const Book = () => {
   const soniRef = useRef();
 
   const multiRefs = useRef([]);
+
+  const [editingBook, setEditingBook] = useState(null);
+  const [openedEditModal, { open: openEdit, close: closeEdit }] = useDisclosure(false);
+
+  const editKitobRef = useRef();
+  const editMuallifRef = useRef();
+  const editNashriyotRef = useRef();
+  const editSoniRef = useRef();
+
+  const { mutate: deleteBook } = useMutation({
+    mutationFn: (id) => API.delete(`/books/book/${id}/`),
+  });
+
+  const { mutate: updateBook } = useMutation({
+    mutationFn: ({ id, data }) => API.put(`/books/book/${id}/`, data),
+  });
+
+  const handleEdit = (book) => {
+    setEditingBook(book);
+    openEdit();
+  };
+
+  const handleDelete = (book) => {
+    modals.openConfirmModal({
+      title: "Kitobni o'chirish",
+      centered: true,
+      children: (
+        <Text size="sm">
+          <strong>{book.name}</strong> kitobini o'chirishga ishonchingiz komilmi? Bu amalni bekor
+          qilish mumkin emas
+        </Text>
+      ),
+      labels: { confirm: "O'chirish", cancel: 'Bekor qilish' },
+      confirmProps: { color: 'red' },
+      onConfirm: () => {
+        deleteBook(book.id, {
+          onSuccess: () => {
+            notifications.show({
+              title: 'Muvaffaqiyat!',
+              message: "Kitob muvaffaqiyatli o'chirildi",
+              color: 'green',
+            });
+            queryClient.invalidateQueries(['books']);
+          },
+          onError: (error) => {
+            notifications.show({
+              title: 'Xatolik',
+              message: error.response?.data?.detail || "Kitobni o'chirishda xatolik yuz berdi",
+              color: 'red',
+            });
+          },
+        });
+      },
+    });
+  };
+
+  function handleSubmitBookEdit(e) {
+    e.preventDefault();
+
+    const updatedData = {
+      name: editKitobRef.current.value,
+      author: editMuallifRef.current.value,
+      publisher: editNashriyotRef.current.value,
+      quantity_in_library: parseInt(editSoniRef.current.value, 10),
+    };
+
+    updateBook(
+      { id: editingBook.id, data: updatedData },
+      {
+        onSuccess: () => {
+          notifications.show({
+            title: 'Muvaffaqiyat!',
+            message: 'Kitob muvaffaqiyatli yangilandi',
+            color: 'green',
+          });
+          closeEdit();
+          setEditingBook(null);
+          queryClient.invalidateQueries(['books']);
+        },
+        onError: (error) => {
+          notifications.show({
+            title: 'Xatolik',
+            message: error.response?.data?.detail || 'Xatolik yuz berdi',
+            color: 'red',
+          });
+        },
+      }
+    );
+  }
 
   const {
     data: books,
@@ -98,7 +188,8 @@ const Book = () => {
     createBook(body, {
       onSuccess: () => {
         notifications.show({
-          message: 'Kitob muvaffaqiyatli qo‘shildi',
+          message: "Kitob muvaffaqiyatli qo'shildi",
+          color: 'green',
         });
         closeSingle();
         queryClient.invalidateQueries(['books']);
@@ -130,27 +221,32 @@ const Book = () => {
       onSuccess: (res) => {
         const booksFile = res.data;
 
-        {
-          addBooks(booksFile, {
-            onSuccess: () => {
-              notifications.show({
-                title: 'Muvaffaqiyat!',
-                message: "Kitob muvaffaqiyatli qo'shildi",
-                color: 'green',
-              });
-              setFile(null);
-              closeFile();
-              queryClient.invalidateQueries(['books']);
-            },
-            onError: (addError) => {
-              notifications.show({
-                title: "Kitoblarni qo'shishda xatolik",
-                message: addError.response?.data?.detail || "Ma'lumotlar formati noto'g'ri.",
-                color: 'red',
-              });
-            },
-          });
-        }
+        addBooks(booksFile, {
+          onSuccess: () => {
+            notifications.show({
+              title: 'Muvaffaqiyat!',
+              message: "Kitob muvaffaqiyatli qo'shildi",
+              color: 'green',
+            });
+            setFile(null);
+            closeFile();
+            queryClient.invalidateQueries(['books']);
+          },
+          onError: (addError) => {
+            notifications.show({
+              title: "Kitoblarni qo'shishda xatolik",
+              message: addError.response?.data?.detail || "Ma'lumotlar formati noto'g'ri.",
+              color: 'red',
+            });
+          },
+        });
+      },
+      onError: (uploadError) => {
+        notifications.show({
+          title: 'Fayl yuklashda xatolik',
+          message: uploadError.response?.data?.detail || 'Faylni yuklashda muammo yuz berdi.',
+          color: 'red',
+        });
       },
     });
   };
@@ -207,15 +303,17 @@ const Book = () => {
       onSuccess: () => {
         notifications.show({
           title: 'Muvaffaqiyat!',
-          message: "Kitob muvaffaqiyatli qo'shildi",
+          message: "Kitoblar muvaffaqiyatli qo'shildi",
           color: 'green',
         });
         handleCloseMulti();
         queryClient.invalidateQueries(['books']);
       },
-      onError: () => {
+      onError: (error) => {
         notifications.show({
           title: "Kitoblarni qo'shishda xatolik",
+          message: error.response?.data?.detail || 'Xatolik yuz berdi',
+          color: 'red',
         });
       },
     });
@@ -223,7 +321,7 @@ const Book = () => {
 
   if (isLoading) {
     return (
-      <Container className="mt-[100px] mb-[100px]">
+      <Container mt={100} mb={100}>
         <Center>
           <Loader size="xl" variant="dots" />
         </Center>
@@ -233,67 +331,119 @@ const Book = () => {
 
   if (isError) {
     return (
-      <Container className="mt-[100px] mb-[100px]">
-        <Center style={{ flexDirection: 'column' }}>
+      <Container mt={100} mb={100}>
+        <Stack align="center">
           <IconAlertCircle size={48} color="red" />
-          <Title order={3} color="red" mt="md">
+          <Title order={3} c="red" mt="md">
             Xatolik yuz berdi.
           </Title>
-        </Center>
+        </Stack>
       </Container>
     );
   }
 
   return (
     <>
-      <Container size="xl" className="mt-[80px] mb-[100px]">
+      <Container style={{ maxWidth: 1440 }} size="xl" mt={80} mb={100}>
         <Paper radius="lg" p="xl">
-          <div className="mb-10 text-center">
+          <Stack mb={40} align="center">
             <Title order={1} style={{ fontSize: '2.5rem' }}>
-              📚 Kitoblar Katalogi
+              Kitoblar Ro'yxati
             </Title>
-            <Text color="dimmed" size="lg">
-              Kutubxonamizdagi barcha kitoblarni qidiring.
+            <Text c="dimmed" size="lg">
+              Kutubxonadagi barcha kitoblarni qidiring
             </Text>
-          </div>
+          </Stack>
+
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Kitob nomini qidirish..."
-            icon={<IconSearch size={20} />}
+            leftSection={<IconSearch size={20} />}
             size="xl"
             variant="filled"
-            className="mb-12"
+            mb={48}
           />
+
           {filteredBooks?.length === 0 && (
-            <Center style={{ height: 250, flexDirection: 'column' }}>
-              <IconMoodEmpty size={60} />
-              <Text size="xl" weight={600} mt="md">
-                "{search}" bo‘yicha hech narsa topilmadi
-              </Text>
-              <Text color="dimmed">Boshqa so‘z bilan urinib ko‘ring.</Text>
+            <Center h={250}>
+              <Stack align="center">
+                <IconMoodEmpty size={60} />
+                <Text size="xl" fw={600} mt="md">
+                  "{search}" bo'yicha hech narsa topilmadi
+                </Text>
+                <Text c="dimmed">Boshqa so'z bilan urinib ko'ring.</Text>
+              </Stack>
             </Center>
           )}
-          Dilshod Umbarov, [12/13/2025 2:32 PM]
+
           {filteredBooks && filteredBooks.length > 0 && (
-            <SimpleGrid
-              cols={4}
-              mt="lg"
-              spacing="xl"
-              breakpoints={[
-                { maxWidth: 'lg', cols: 3 },
-                { maxWidth: 'md', cols: 2 },
-                { maxWidth: 'sm', cols: 1 },
-              ]}
-            >
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} mt="lg" spacing="xl">
               {filteredBooks.map((book) => (
-                <BookCard key={book.id} book={book} />
+                <CardEl key={book.id} post={book} onEdit={handleEdit} onDelete={handleDelete} />
               ))}
             </SimpleGrid>
           )}
         </Paper>
 
-        <Modal opened={openedSingleModal} onClose={closeSingle} title="Bitta kitob qo‘shish">
+        <Modal
+          opened={openedEditModal}
+          onClose={() => {
+            closeEdit();
+            setEditingBook(null);
+          }}
+          title="Kitobni tahrirlash"
+        >
+          <form onSubmit={handleSubmitBookEdit}>
+            <TextInput
+              ref={editKitobRef}
+              label="Kitob nomi"
+              placeholder="Kitob nomi"
+              defaultValue={editingBook?.name}
+              required
+            />
+            <TextInput
+              ref={editMuallifRef}
+              label="Muallif"
+              placeholder="Muallif"
+              defaultValue={editingBook?.author}
+              mt="md"
+              required
+            />
+            <TextInput
+              ref={editNashriyotRef}
+              label="Nashriyot"
+              placeholder="Nashriyot"
+              defaultValue={editingBook?.publisher}
+              mt="md"
+            />
+            <TextInput
+              ref={editSoniRef}
+              type="number"
+              label="Kitoblar soni"
+              placeholder="Kitoblar soni"
+              defaultValue={editingBook?.quantity_in_library}
+              mt="md"
+              min={1}
+              required
+            />
+
+            <Group justify="flex-end" gap="sm" mt="lg">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  closeEdit();
+                  setEditingBook(null);
+                }}
+              >
+                Bekor qilish
+              </Button>
+              <Button type="submit">Saqlash</Button>
+            </Group>
+          </form>
+        </Modal>
+
+        <Modal opened={openedSingleModal} onClose={closeSingle} title="Bitta kitob qo'shish">
           <form onSubmit={handleSubmitBookCreate}>
             <FocusTrap.InitialFocus />
 
@@ -310,12 +460,12 @@ const Book = () => {
               required
             />
 
-            <Flex justify="flex-end" gap="sm" mt="lg">
+            <Group justify="flex-end" gap="sm" mt="lg">
               <Button variant="outline" onClick={closeSingle}>
                 Bekor qilish
               </Button>
-              <Button type="submit">Qo‘shish</Button>
-            </Flex>
+              <Button type="submit">Qo'shish</Button>
+            </Group>
           </form>
         </Modal>
 
@@ -324,7 +474,7 @@ const Book = () => {
           onClose={handleCloseMulti}
           title={
             <Text size="lg" fw={600}>
-              📚 Bir nechta kitob qo‘shish
+              📚 Bir nechta kitob qo'shish
             </Text>
           }
           centered
@@ -335,27 +485,26 @@ const Book = () => {
             <form onSubmit={handleCountSubmit}>
               <TextInput
                 ref={(el) => (multiRefs.current[0] = el)}
-                label="Nechta kitob qo‘shasiz?"
+                label="Nechta kitob qo'shasiz?"
                 placeholder="Kitoblar soni"
                 type="number"
                 min={1}
                 required
               />
-              <Flex justify="flex-end" gap="sm" mt="lg">
+              <Group justify="flex-end" gap="sm" mt="lg">
                 <Button variant="outline" onClick={handleCloseMulti}>
                   Bekor qilish
                 </Button>
                 <Button type="submit">Keyingi</Button>
-              </Flex>
+              </Group>
             </form>
           )}
 
           {multiStep === 2 && (
             <form onSubmit={handleMultiBooksSubmit}>
-              <Text size="sm" color="dimmed" mb="md">
+              <Text size="sm" c="dimmed" mb="md">
                 Jami {multiBooksData.length} ta kitob uchun ma'lumot kiriting.
               </Text>
-              Dilshod Umbarov, [12/13/2025 2:32 PM]
               {multiBooksData.map((book, index) => (
                 <Paper key={index} shadow="xs" p="md" withBorder mb="lg">
                   <Title order={4} mb="sm">
@@ -397,14 +546,14 @@ const Book = () => {
                   />
                 </Paper>
               ))}
-              <Flex justify="space-between" gap="sm" mt="lg">
+              <Group justify="space-between" gap="sm" mt="lg">
                 <Button variant="outline" onClick={() => setMultiStep(1)}>
                   Orqaga
                 </Button>
                 <Button type="submit" loading={isAddingBooks} disabled={isAddingBooks}>
-                  Qo‘shish
+                  Qo'shish
                 </Button>
-              </Flex>
+              </Group>
             </form>
           )}
         </Modal>
@@ -420,15 +569,16 @@ const Book = () => {
           centered
         >
           <form onSubmit={handleSubmitFileUpload}>
-            <Flex direction="column" gap="xl">
-              <div className="flex flex-col items-center">
+            <Stack gap="xl">
+              <Stack align="center">
                 <Text size="md" fw={500}>
                   Excel faylni shu yerga tanlang
                 </Text>
-                <Text size="sm" color="dimmed" style={{ textAlign: 'center', marginTop: rem(4) }}>
+                <Text size="sm" c="dimmed" ta="center" mt={4}>
                   Faqat .xlsx yoki .xls formatidagi fayllar qo'llab-quvvatlanadi
                 </Text>
-              </div>
+              </Stack>
+
               <FileInput
                 placeholder="Faylni tanlash uchun bosing"
                 accept=".xlsx, .xls"
@@ -438,7 +588,7 @@ const Book = () => {
                 clearable
                 size="lg"
               />
-              Dilshod Umbarov, [12/13/2025 2:32 PM]
+
               <Group justify="flex-end" mt="md">
                 <Button variant="outline" onClick={closeFile}>
                   Bekor qilish
@@ -452,46 +602,53 @@ const Book = () => {
                   {isAddingBooks ? "Kitoblar qo'shilmoqda..." : 'Yuklash'}
                 </Button>
               </Group>
-            </Flex>
+            </Stack>
           </form>
         </Modal>
       </Container>
 
       {isAuth && (
-        <div className="fixed bottom-8 right-8">
+        <Box
+          style={{
+            position: 'fixed',
+            bottom: 32,
+            right: 32,
+          }}
+        >
           <Menu width={250} shadow="md">
             <Menu.Target>
-              <Button>
+              <Button size="lg">
                 <LuPlus />
-                <span className="ml-1"> Kitob qo‘shish</span>
+                <Box component="span" ml={4}>
+                  Kitob qo'shish
+                </Box>
               </Button>
             </Menu.Target>
 
             <Menu.Dropdown>
               <Menu.Item onClick={openSingle}>
-                <Flex align="center" gap="xs">
+                <Group gap="xs">
                   <AiOutlineBook />
-                  Bitta kitob qo‘shish
-                </Flex>
+                  <Text>Bitta kitob qo'shish</Text>
+                </Group>
               </Menu.Item>
 
               <Menu.Item onClick={openMulti}>
-                {' '}
-                <Flex align="center" gap="xs">
+                <Group gap="xs">
                   <FaBookMedical />
-                  Bir nechta kitob qo‘shish
-                </Flex>
+                  <Text>Bir nechta kitob qo'shish</Text>
+                </Group>
               </Menu.Item>
 
               <Menu.Item onClick={openFile}>
-                <Flex align="center" gap="xs">
+                <Group gap="xs">
                   <MdOutlineFileDownload />
-                  Fayl yuklash
-                </Flex>
+                  <Text>Fayl yuklash</Text>
+                </Group>
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
-        </div>
+        </Box>
       )}
     </>
   );

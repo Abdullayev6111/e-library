@@ -1,17 +1,58 @@
 import { create } from 'zustand';
 
+const getFromStorage = (key) => {
+  try {
+    const item = localStorage.getItem(key);
+
+    if (!item || item === 'undefined' || item === 'null') {
+      localStorage.removeItem(key);
+      return null;
+    }
+
+    return item;
+  } catch (error) {
+    console.error(`Error reading ${key} from localStorage:`, error);
+    return null;
+  }
+};
+
+const parseJSON = (value) => {
+  if (!value) return null;
+
+  try {
+    return JSON.parse(value);
+  } catch (error) {
+    console.error('JSON parse error:', error);
+    return null;
+  }
+};
+
+const saveToStorage = (key, value) => {
+  try {
+    if (value === null || value === undefined) {
+      localStorage.removeItem(key);
+      return;
+    }
+
+    const stringValue = typeof value === 'string' ? value : JSON.stringify(value);
+    localStorage.setItem(key, stringValue);
+  } catch (error) {
+    console.error(`Error saving ${key} to localStorage:`, error);
+  }
+};
+
 const useAuthStore = create((set) => ({
-  token: localStorage.getItem('access') || null,
-  user: JSON.parse(localStorage.getItem('user')) || null,
-  isAuth: !!localStorage.getItem('access'),
+  token: getFromStorage('access'),
+  user: parseJSON(getFromStorage('user')),
+  isAuth: !!getFromStorage('access'),
 
   setToken: (token) => {
-    localStorage.setItem('access', token);
+    saveToStorage('access', token);
     set({ token, isAuth: true });
   },
 
   setUser: (user) => {
-    localStorage.setItem('user', JSON.stringify(user));
+    saveToStorage('user', user);
     set({ user });
   },
 
