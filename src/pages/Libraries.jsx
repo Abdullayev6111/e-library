@@ -48,22 +48,22 @@ const Libraaries = () => {
       if (sortBy === 'booksAsc') return (a.total_books || 0) - (b.total_books || 0);
       return 0;
     });
-  const libraryIds = libraries.map((lib) => lib.id);
+  const libraryIds = libraries?.map((lib) => lib.id);
 
   const { data: detailsMap = {} } = useQuery({
     queryKey: ['librariesDetails', libraryIds],
     queryFn: async () => {
       const results = await Promise.all(
-        libraryIds.map((id) =>
+        libraryIds?.map((id) =>
           API.get(`/libraries/library/${id}/`)
             .then((r) => ({ id, ...r.data }))
             .catch(() => ({ id, phone: null, social_media: { telegram: null } }))
         )
       );
 
-      return Object.fromEntries(results.map((item) => [item.id, item]));
+      return Object.fromEntries(results?.map((item) => [item.id, item]));
     },
-    enabled: libraryIds.length > 0,
+    enabled: libraryIds?.length > 0,
   });
 
   if (isLoading) {
@@ -171,7 +171,7 @@ const Libraaries = () => {
                 gap: '20px',
               }}
             >
-              {filteredLibraries.map((library) => {
+              {filteredLibraries?.map((library) => {
                 const detail = detailsMap[library.id];
                 return (
                   <LibraryCard

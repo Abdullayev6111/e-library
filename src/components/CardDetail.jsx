@@ -93,7 +93,7 @@ const CardDetail = () => {
           {t('cardDetail.allBooks')}
         </h1>
         <div className="detail-all-books">
-          {currentBooks.map((book) => (
+          {currentBooks?.map((book) => (
             <CardEl key={book.id} post={book} />
           ))}
         </div>

@@ -49,7 +49,7 @@ const LibrariesDetail = () => {
         </Grid>
         <Skeleton height={60} mt="xl" width="60%" radius="md" />
         <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="lg" mt="lg">
-          {[...Array(4)].map((_, i) => (
+          {[...Array(4)]?.map((_, i) => (
             <Skeleton key={i} height={280} radius="md" />
           ))}
         </SimpleGrid>
@@ -164,7 +164,7 @@ const LibrariesDetail = () => {
           </Paper>
         ) : (
           <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing="xl" mt="xl">
-            {books.map((book) => (
+            {books?.map((book) => (
               <Card
                 key={book.id}
                 withBorder

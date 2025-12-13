@@ -24,7 +24,7 @@ export function LanguageSelect() {
     setOpened(false);
   };
 
-  const items = data.map((item) => (
+  const items = data?.map((item) => (
     <Menu.Item
       key={item.label}
       leftSection={<Image src={item.image} style={{ objectFit: 'cover' }} width={18} height={18} />}

@@ -56,7 +56,7 @@ function BooksSection({ books }) {
 
   return (
     <Stack>
-      {books.map((b) => (
+      {books?.map((b) => (
         <Card key={b.id} withBorder radius="md">
           <Text fw={600}>{b.title}</Text>
           <Text size="sm" c="dimmed">

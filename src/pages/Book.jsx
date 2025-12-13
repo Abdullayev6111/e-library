@@ -379,7 +379,7 @@ const Book = () => {
 
           {filteredBooks && filteredBooks.length > 0 && (
             <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} mt="lg" spacing="xl">
-              {filteredBooks.map((book) => (
+              {filteredBooks?.map((book) => (
                 <CardEl key={book.id} post={book} onEdit={handleEdit} onDelete={handleDelete} />
               ))}
             </SimpleGrid>
@@ -505,7 +505,7 @@ const Book = () => {
               <Text size="sm" c="dimmed" mb="md">
                 Jami {multiBooksData.length} ta kitob uchun ma'lumot kiriting.
               </Text>
-              {multiBooksData.map((book, index) => (
+              {multiBooksData?.map((book, index) => (
                 <Paper key={index} shadow="xs" p="md" withBorder mb="lg">
                   <Title order={4} mb="sm">
                     Kitob {index + 1} / {multiBooksData.length}
