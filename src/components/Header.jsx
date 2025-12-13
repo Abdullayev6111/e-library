@@ -26,7 +26,7 @@ const Header = () => {
         <div className="header-right">
           <LanguageSelect />
 
-          {isAuth ? (
+          {!isAuth ? (
             <Link to="/login">
               <button className="login-btn">{t('header.loginBtn')}</button>
             </Link>

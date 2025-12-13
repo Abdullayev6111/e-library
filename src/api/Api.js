@@ -2,7 +2,7 @@ import axios from 'axios';
 import useAuthStore from '../store/useAuthStore';
 
 const API = axios.create({
-  baseURL: 'https://org-ave-jimmy-learners.trycloudflare.com/api/v1',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 API.interceptors.request.use((config) => {
@@ -24,7 +24,7 @@ API.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          'https://org-ave-jimmy-learners.trycloudflare.com/api/v1/auth/login/refresh/',
+          `${import.meta.env.VITE_API_BASE_URL}/auth/login/refresh/`,
           { refresh }
         );
 

@@ -28,6 +28,7 @@ import {
   IconBrandTelegram,
 } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import API from '../api/Api';
 import useAuthStore from '../store/useAuthStore';
 import BookReader from '../assets/images/book-reader.jpg';
@@ -35,6 +36,7 @@ import BookReader from '../assets/images/book-reader.jpg';
 export default function Profile() {
   const [editModalOpened, setEditModalOpened] = useState(false);
   const [logoutModalOpened, setLogoutModalOpened] = useState(false);
+  const navigate = useNavigate();
   const logoutStore = useAuthStore((s) => s.logout);
   const queryClient = useQueryClient();
 
@@ -98,10 +100,18 @@ export default function Profile() {
     mutationFn: () => API.post('/auth/logout/'),
     onSuccess: () => {
       logoutStore();
-      window.location.href = '/login';
+      navigate('/login', { replace: true });
+    },
+    onError: () => {
+      notifications.show({
+        title: 'Ogohlantirish',
+        message: 'Serverda xatolik, tizimdan chiqildi',
+        color: 'yellow',
+      });
+      logoutStore();
+      navigate('/login', { replace: true });
     },
   });
-
   if (isLoading) {
     return (
       <Center h="80vh">

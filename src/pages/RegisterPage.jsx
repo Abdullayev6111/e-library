@@ -150,7 +150,9 @@ const RegisterPage = () => {
     try {
       const [lat, lng] = coords;
       const response = await fetch(
-        `https://geocode-maps.yandex.ru/1.x/?apikey=3e206efe-ea7d-442a-88e5-f77e57cc0d2e&geocode=${lng},${lat}&format=json&kind=house&lang=uz_UZ`
+        `https://geocode-maps.yandex.ru/1.x/?apikey=${
+          import.meta.env.VITE_YANDEX_MAPS_API_KEY
+        }&geocode=${lng},${lat}&format=json&kind=house&lang=uz_UZ`
       );
       const data = await response.json();
 
@@ -260,7 +262,7 @@ const RegisterPage = () => {
                 overflow: 'hidden',
               }}
             >
-              <YMaps query={{ apikey: '3e206efe-ea7d-442a-88e5-f77e57cc0d2e' }}>
+              <YMaps query={{ apikey: import.meta.env.VITE_YANDEX_MAPS_API_KEY }}>
                 <Map
                   width="100%"
                   height="100%"
