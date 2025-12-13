@@ -134,19 +134,19 @@ export default function Profile() {
             </Avatar>
             <Stack gap={6}>
               <Text size="xl" fw={700}>
-                {user?.name}
+                <i style={{ color: '#00aeff' }} className="fa-regular fa-user"></i>{' '}
+                {user?.user.name}
               </Text>
               <Text size="lg" c="blue">
-                {user?.phone}
+                <i style={{ color: '#00aeff' }} className="fa-solid fa-phone"></i> +
+                {user?.user.phone}
               </Text>
               {(user?.address || user?.address === '') && (
                 <Text size="sm" c="dimmed">
+                  <i style={{ color: '#00aeff' }} className="fa-solid fa-location-dot"></i>{' '}
                   {user.address || 'Manzil kiritilmagan'}
                 </Text>
               )}
-              <Text size="sm" c="dimmed">
-                Chilonzor
-              </Text>
             </Stack>
           </Group>
 
