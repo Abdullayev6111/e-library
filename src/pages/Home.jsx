@@ -88,7 +88,7 @@ const Home = () => {
               {results.length === 0 ? (
                 <p style={{ padding: '10px' }}>{t('home.noResults')}</p>
               ) : (
-                results?.map((item) => (
+                (results || []).map((item) => (
                   <div
                     key={item.id}
                     style={{
