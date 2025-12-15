@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import API from '../api/Api';
 import { Card, Image, Badge, Group, Stack } from '@mantine/core';
-import { MantineText as MantineText } from '@mantine/core';
+import { Text as MantineText } from '@mantine/core';
 import { IconUser, IconBook, IconBooks } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Pagination, Center } from '@mantine/core';

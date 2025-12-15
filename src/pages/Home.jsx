@@ -8,7 +8,6 @@ import CardEl from '../components/CardEl';
 import { Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
-import { Text as MantineText } from '@mantine/core';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -30,14 +29,14 @@ const Home = () => {
 
   const results = useMemo(() => {
     if (!search.trim()) return [];
-    return (
-      data?.filter((b) => {
-        const name = b.name?.toLowerCase() || '';
-        const author = b.author?.toLowerCase() || '';
-        const q = search.toLowerCase();
-        return name.includes(q) || author.includes(q);
-      }) || []
-    );
+    if (!data || !Array.isArray(data)) return [];
+
+    return data.filter((b) => {
+      const name = b.name?.toLowerCase() || '';
+      const author = b.author?.toLowerCase() || '';
+      const q = search.toLowerCase();
+      return name.includes(q) || author.includes(q);
+    });
   }, [search, data]);
 
   useEffect(() => {
@@ -89,7 +88,8 @@ const Home = () => {
               {results.length === 0 ? (
                 <p style={{ padding: '10px' }}>{t('home.noResults')}</p>
               ) : (
-                (results || []).map((item) => (
+                Array.isArray(results) &&
+                results.map((item) => (
                   <div
                     key={item.id}
                     style={{
@@ -127,7 +127,7 @@ const Home = () => {
           slideSize="25%"
           slideGap="md"
           align="start"
-          emblaOptions={{ loop: true }}
+          loop={true}
           plugins={[autoplay.current]}
           onMouseEnter={autoplay.current.stop}
           onMouseLeave={autoplay.current.play}
@@ -140,9 +140,17 @@ const Home = () => {
             ))
           ) : (
             <Carousel.Slide>
-              <MantineText ta="center" c="dimmed">
-                Ma'lumot yuklanmoqda...
-              </MantineText>
+              <div
+                style={{
+                  height: '360px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#666',
+                }}
+              >
+                <p>Ma'lumotlar yuklanmoqda...</p>
+              </div>
             </Carousel.Slide>
           )}
         </Carousel>
