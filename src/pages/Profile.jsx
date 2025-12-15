@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import {
   Avatar,
-  Text,
   Group,
   Paper,
   Stack,
@@ -17,6 +16,7 @@ import {
   Card,
   Box,
 } from '@mantine/core';
+import { Text as MantineText } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import {
@@ -51,17 +51,17 @@ import BookReader from '../assets/images/book-reader.jpg';
  */
 function BooksSection({ books }) {
   if (!books || books.length === 0) {
-    return <Text c="dimmed">Kitoblar ro'yxati mavjud emas.</Text>;
+    return <MantineText c="dimmed">Kitoblar ro'yxati mavjud emas.</MantineText>;
   }
 
   return (
     <Stack>
       {books?.map((b) => (
         <Card key={b.id} withBorder radius="md">
-          <Text fw={600}>{b.title}</Text>
-          <Text size="sm" c="dimmed">
+          <MantineText fw={600}>{b.title}</MantineText>
+          <MantineText size="sm" c="dimmed">
             {b.author}
-          </Text>
+          </MantineText>
         </Card>
       ))}
     </Stack>
@@ -73,7 +73,7 @@ function BooksSection({ books }) {
  */
 function SocialSection({ social }) {
   if (!social || (!social.telegram && !social.instagram && !social.facebook)) {
-    return <Text c="dimmed">Ijtimoiy tarmoqlar kiritilmagan.</Text>;
+    return <MantineText c="dimmed">Ijtimoiy tarmoqlar kiritilmagan.</MantineText>;
   }
 
   return (
@@ -126,16 +126,18 @@ function MapSection({ address, coords }) {
   const location = coords;
 
   if (!location || location.length !== 2 || typeof location[0] !== 'number') {
-    return <Text c="dimmed">Xarita mavjud emas (manzil koordinatalari kiritilmagan).</Text>;
+    return (
+      <MantineText c="dimmed">Xarita mavjud emas (manzil koordinatalari kiritilmagan).</MantineText>
+    );
   }
 
   const API_KEY = import.meta.env.VITE_YANDEX_MAPS_API_KEY;
 
   return (
     <Stack>
-      <Text size="md" fw={500}>
+      <MantineText size="md" fw={500}>
         Manzil: **{address || 'Kiritilmagan'}**
-      </Text>
+      </MantineText>
 
       <Box
         mt="lg"
@@ -275,7 +277,7 @@ export default function Profile() {
   if (!user || !user.user) {
     return (
       <Center h="80vh">
-        <Text>Profil ma'lumotlari yuklanmadi.</Text>
+        <MantineText>Profil ma'lumotlari yuklanmadi.</MantineText>
       </Center>
     );
   }
@@ -290,21 +292,21 @@ export default function Profile() {
           <Group>
             <Avatar size={120} radius={120} src={BookReader} />
             <Stack gap={4}>
-              <Text size="xl" fw={700}>
+              <MantineText size="xl" fw={700}>
                 {user.user.name}
-              </Text>
-              <Text c="blue">+{user.user.phone}</Text>
+              </MantineText>
+              <MantineText c="blue">+{user.user.phone}</MantineText>
               <Group gap="xs">
                 <IconMapPin size={16} />
-                <Text size="sm" c="dimmed">
+                <MantineText size="sm" c="dimmed">
                   {user.address || 'Manzil kiritilmagan'}
-                </Text>
+                </MantineText>
               </Group>
               <Group gap="xs">
                 <IconBook size={16} />
-                <Text size="sm" c={user.can_rent_books ? 'teal' : 'red'}>
+                <MantineText size="sm" c={user.can_rent_books ? 'teal' : 'red'}>
                   {rentStatus}
-                </Text>
+                </MantineText>
               </Group>
             </Stack>
           </Group>
@@ -378,9 +380,9 @@ export default function Profile() {
               {...form.getInputProps('can_rent_books', { type: 'checkbox' })}
             />
 
-            <Text fw={600} size="sm" mt="sm">
+            <MantineText fw={600} size="sm" mt="sm">
               Ijtimoiy tarmoq havolalari
-            </Text>
+            </MantineText>
             <TextInput
               placeholder="https://t.me/username"
               leftSection={<IconBrandTelegram />}
@@ -412,7 +414,7 @@ export default function Profile() {
         title="Tizimdan chiqish"
         centered
       >
-        <Text>Tizimdan chiqishni tasdiqlaysizmi?</Text>
+        <MantineText>Tizimdan chiqishni tasdiqlaysizmi?</MantineText>
         <Group justify="flex-end" mt="md">
           <Button variant="default" onClick={() => setLogoutModalOpened(false)}>
             Yo‘q

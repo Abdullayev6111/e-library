@@ -7,11 +7,11 @@ import {
   Paper,
   Stack,
   Title,
-  Text,
   Anchor,
   Group,
   Box,
 } from '@mantine/core';
+import { Text as MantineText } from '@mantine/core';
 import {
   IconUser,
   IconPhone,
@@ -186,9 +186,9 @@ const RegisterPage = () => {
           <Title order={2} c="blue">
             Kutubxonachi ro'yxatdan o'tish
           </Title>
-          <Text size="sm" c="dimmed">
+          <MantineText size="sm" c="dimmed">
             Kutubxona ma'lumotlarini to'ldiring
-          </Text>
+          </MantineText>
         </Stack>
 
         <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -316,12 +316,12 @@ const RegisterPage = () => {
               Ro'yxatdan o'tish
             </Button>
 
-            <Text ta="center">
+            <MantineText ta="center">
               Hisobingiz bormi?{' '}
               <Anchor component={Link} to="/login" fw={700}>
                 Tizimga kirish
               </Anchor>
-            </Text>
+            </MantineText>
           </Stack>
         </form>
       </Paper>
