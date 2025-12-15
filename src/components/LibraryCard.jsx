@@ -1,4 +1,5 @@
-import { Badge, Card, Image, Text } from '@mantine/core';
+import { Badge, Card, Image } from '@mantine/core';
+import { Text as MantineText } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import LibraryImg from '../assets/images/library-img.jpg';
 import { useTranslation } from 'react-i18next';
@@ -31,19 +32,19 @@ const LibraryCard = ({ library, phone, telegram }) => {
       </Card.Section>
 
       <div>
-        <Text fw={700} size="xl" lineClamp={2} style={{ fontFamily: 'cairo-b' }}>
+        <MantineText fw={700} size="xl" lineClamp={2} style={{ fontFamily: 'cairo-b' }}>
           {library.name}
-        </Text>
+        </MantineText>
 
-        <Text size="sm" c="dimmed" mt={8}>
+        <MantineText size="sm" c="dimmed" mt={8}>
           <i className="fa-solid fa-book"></i> {library.total_books || 0}
-        </Text>
+        </MantineText>
 
-        <Text size="sm" c="dimmed" mt={4}>
+        <MantineText size="sm" c="dimmed" mt={4}>
           <i className="fa-solid fa-phone"></i> {phone || '—'}
-        </Text>
+        </MantineText>
 
-        <Text size="sm" c="dimmed" mt={4}>
+        <MantineText size="sm" c="dimmed" mt={4}>
           <i className="fa-brands fa-telegram"></i>{' '}
           {telegram ? (
             <a
@@ -58,11 +59,11 @@ const LibraryCard = ({ library, phone, telegram }) => {
           ) : (
             '—'
           )}
-        </Text>
+        </MantineText>
 
-        <Text size="sm" c="dimmed" mt={4} lineClamp={1}>
+        <MantineText size="sm" c="dimmed" mt={4} lineClamp={1}>
           <i className="fa-solid fa-location-dot"></i> {library.address || "Manzil ko'rsatilmagan"}
-        </Text>
+        </MantineText>
       </div>
     </Card>
   );

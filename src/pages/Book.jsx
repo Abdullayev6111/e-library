@@ -2,7 +2,6 @@ import {
   Container,
   Input,
   Title,
-  Text,
   SimpleGrid,
   Center,
   Loader,
@@ -17,6 +16,7 @@ import {
   Box,
   Stack,
 } from '@mantine/core';
+import { Text as MantineText } from '@mantine/core';
 import {
   IconSearch,
   IconAlertCircle,
@@ -85,10 +85,10 @@ const Book = () => {
       title: "Kitobni o'chirish",
       centered: true,
       children: (
-        <Text size="sm">
+        <MantineText size="sm">
           <strong>{book.name}</strong> kitobini o'chirishga ishonchingiz komilmi? Bu amalni bekor
           qilish mumkin emas
-        </Text>
+        </MantineText>
       ),
       labels: { confirm: "O'chirish", cancel: 'Bekor qilish' },
       confirmProps: { color: 'red' },
@@ -350,9 +350,9 @@ const Book = () => {
             <Title order={1} style={{ fontSize: '2.5rem' }}>
               Kitoblar Ro'yxati
             </Title>
-            <Text c="dimmed" size="lg">
+            <MantineText c="dimmed" size="lg">
               Kutubxonadagi barcha kitoblarni qidiring
-            </Text>
+            </MantineText>
           </Stack>
 
           <Input
@@ -369,10 +369,10 @@ const Book = () => {
             <Center h={250}>
               <Stack align="center">
                 <IconMoodEmpty size={60} />
-                <Text size="xl" fw={600} mt="md">
+                <MantineText size="xl" fw={600} mt="md">
                   "{search}" bo'yicha hech narsa topilmadi
-                </Text>
-                <Text c="dimmed">Boshqa so'z bilan urinib ko'ring.</Text>
+                </MantineText>
+                <MantineText c="dimmed">Boshqa so'z bilan urinib ko'ring.</MantineText>
               </Stack>
             </Center>
           )}
@@ -473,9 +473,9 @@ const Book = () => {
           opened={openedMultiModal}
           onClose={handleCloseMulti}
           title={
-            <Text size="lg" fw={600}>
-              📚 Bir nechta kitob qo'shish
-            </Text>
+            <MantineText size="lg" fw={600}>
+              Bir nechta kitob qo'shish
+            </MantineText>
           }
           centered
           size="xl"
@@ -502,9 +502,9 @@ const Book = () => {
 
           {multiStep === 2 && (
             <form onSubmit={handleMultiBooksSubmit}>
-              <Text size="sm" c="dimmed" mb="md">
+              <MantineText size="sm" c="dimmed" mb="md">
                 Jami {multiBooksData.length} ta kitob uchun ma'lumot kiriting.
-              </Text>
+              </MantineText>
               {multiBooksData?.map((book, index) => (
                 <Paper key={index} shadow="xs" p="md" withBorder mb="lg">
                   <Title order={4} mb="sm">
@@ -562,21 +562,21 @@ const Book = () => {
           opened={openedFileModal}
           onClose={closeFile}
           title={
-            <Text size="lg" fw={600}>
-              📚 Kutubxona Ma'lumotlarini Yuklash
-            </Text>
+            <MantineText size="lg" fw={600}>
+              Kutubxona Ma'lumotlarini Yuklash
+            </MantineText>
           }
           centered
         >
           <form onSubmit={handleSubmitFileUpload}>
             <Stack gap="xl">
               <Stack align="center">
-                <Text size="md" fw={500}>
+                <MantineText size="md" fw={500}>
                   Excel faylni shu yerga tanlang
-                </Text>
-                <Text size="sm" c="dimmed" ta="center" mt={4}>
+                </MantineText>
+                <MantineText size="sm" c="dimmed" ta="center" mt={4}>
                   Faqat .xlsx yoki .xls formatidagi fayllar qo'llab-quvvatlanadi
-                </Text>
+                </MantineText>
               </Stack>
 
               <FileInput
@@ -629,21 +629,21 @@ const Book = () => {
               <Menu.Item onClick={openSingle}>
                 <Group gap="xs">
                   <AiOutlineBook />
-                  <Text>Bitta kitob qo'shish</Text>
+                  <MantineText>Bitta kitob qo'shish</MantineText>
                 </Group>
               </Menu.Item>
 
               <Menu.Item onClick={openMulti}>
                 <Group gap="xs">
                   <FaBookMedical />
-                  <Text>Bir nechta kitob qo'shish</Text>
+                  <MantineText>Bir nechta kitob qo'shish</MantineText>
                 </Group>
               </Menu.Item>
 
               <Menu.Item onClick={openFile}>
                 <Group gap="xs">
                   <MdOutlineFileDownload />
-                  <Text>Fayl yuklash</Text>
+                  <MantineText>Fayl yuklash</MantineText>
                 </Group>
               </Menu.Item>
             </Menu.Dropdown>

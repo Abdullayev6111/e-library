@@ -1,4 +1,5 @@
-import { Badge, Card, Image, Text, Group, ActionIcon, Menu } from '@mantine/core';
+import { Badge, Card, Image, Group, ActionIcon, Menu } from '@mantine/core';
+import { Text as MantineText } from '@mantine/core';
 import { IconDotsVertical, IconEdit, IconTrash } from '@tabler/icons-react';
 import BookImg from '../assets/images/book-image.jpg';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -88,17 +89,17 @@ const CardEl = ({ post, onEdit, onDelete }) => {
       </Card.Section>
 
       <div>
-        <Text fw={700} size="xl" lineClamp={2} style={{ fontFamily: 'cairo-b' }}>
+        <MantineText fw={700} size="xl" lineClamp={2} style={{ fontFamily: 'cairo-b' }}>
           {post.name}
-        </Text>
+        </MantineText>
 
-        <Text size="sm" c="dimmed" mt={8} style={{ fontFamily: 'cairo-m' }}>
+        <MantineText size="sm" c="dimmed" mt={8} style={{ fontFamily: 'cairo-m' }}>
           {t('card.author')}: {post.author}
-        </Text>
+        </MantineText>
 
-        <Text size="sm" c="dimmed" mt={4} style={{ fontFamily: 'cairo-m' }}>
+        <MantineText size="sm" c="dimmed" mt={4} style={{ fontFamily: 'cairo-m' }}>
           {t('card.publisher')}: {post.publisher}
-        </Text>
+        </MantineText>
       </div>
 
       <Badge

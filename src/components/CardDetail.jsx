@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import API from '../api/Api';
-import { Card, Image, Text, Badge, Group, Stack } from '@mantine/core';
+import { Card, Image, Badge, Group, Stack } from '@mantine/core';
+import { MantineText as MantineText } from '@mantine/core';
 import { IconUser, IconBook, IconBooks } from '@tabler/icons-react';
 import { useState } from 'react';
 import { Pagination, Center } from '@mantine/core';
@@ -56,9 +57,9 @@ const CardDetail = () => {
             />
 
             <Stack gap="xs" style={{ flex: 1 }}>
-              <Text size="xl" fw={700} c="dark">
+              <MantineText size="xl" fw={700} c="dark">
                 {bookData?.name}
-              </Text>
+              </MantineText>
 
               <Badge color="cyan" variant="light" radius="sm">
                 ID: {bookData?.id}
@@ -66,23 +67,23 @@ const CardDetail = () => {
 
               <Group gap="sm" align="center">
                 <IconUser size={18} color="#666" />
-                <Text size="sm" c="dimmed">
+                <MantineText size="sm" c="dimmed">
                   {t('card.author')}: {bookData?.author}
-                </Text>
+                </MantineText>
               </Group>
 
               <Group gap="sm" align="center">
                 <IconBook size={18} color="#666" />
-                <Text size="sm" c="dimmed">
+                <MantineText size="sm" c="dimmed">
                   {t('card.publisher')}: {bookData?.publisher}
-                </Text>
+                </MantineText>
               </Group>
 
               <Group gap="sm" align="center">
                 <IconBooks size={18} color="#666" />
-                <Text size="sm" c="dimmed">
+                <MantineText size="sm" c="dimmed">
                   {t('cardDetail.bookQuantity')}: {bookData?.quantity_in_library}
-                </Text>
+                </MantineText>
               </Group>
             </Stack>
           </Group>

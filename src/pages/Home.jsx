@@ -8,6 +8,7 @@ import CardEl from '../components/CardEl';
 import { Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
+import { Text as MantineText } from '@mantine/core';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -139,9 +140,9 @@ const Home = () => {
             ))
           ) : (
             <Carousel.Slide>
-              <Text ta="center" c="dimmed">
+              <MantineText ta="center" c="dimmed">
                 Ma'lumot yuklanmoqda...
-              </Text>
+              </MantineText>
             </Carousel.Slide>
           )}
         </Carousel>

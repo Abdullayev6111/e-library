@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore';
-import { Center, Loader, Stack, Text } from '@mantine/core';
+import { Center, Loader, Stack } from '@mantine/core';
+import { Text as MantineText } from '@mantine/core';
 
 const PrivateRoute = () => {
   const { isAuth, token } = useAuthStore();
@@ -10,9 +11,9 @@ const PrivateRoute = () => {
       <Center h="100vh">
         <Stack align="center">
           <Loader size="xl" />
-          <Text size="lg" c="dimmed">
+          <MantineText size="lg" c="dimmed">
             Yuklanmoqda...
-          </Text>
+          </MantineText>
         </Stack>
       </Center>
     );

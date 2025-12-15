@@ -4,7 +4,6 @@ import LibraryCard from '../components/LibraryCard';
 import {
   Center,
   Loader,
-  Text,
   Select,
   Checkbox,
   Group,
@@ -15,6 +14,7 @@ import {
   ActionIcon,
   Tooltip,
 } from '@mantine/core';
+import { Text as MantineText } from '@mantine/core';
 import { IconSearch, IconGrid3x3, IconList } from '@tabler/icons-react';
 import { useState } from 'react';
 
@@ -70,7 +70,7 @@ const Libraaries = () => {
     return (
       <Center my={100}>
         <Loader size="lg" color="teal" />
-        <Text ml={10}>Kutubxonalar yuklanmoqda...</Text>
+        <MantineText ml={10}>Kutubxonalar yuklanmoqda...</MantineText>
       </Center>
     );
   }
@@ -78,7 +78,7 @@ const Libraaries = () => {
   if (!libraries.length) {
     return (
       <Center my={100}>
-        <Text c="dimmed">Kutubxona topilmadi</Text>
+        <MantineText c="dimmed">Kutubxona topilmadi</MantineText>
       </Center>
     );
   }
@@ -158,9 +158,9 @@ const Libraaries = () => {
 
           {filteredLibraries.length === 0 ? (
             <Center h={300}>
-              <Text c="dimmed" size="xl">
+              <MantineText c="dimmed" size="xl">
                 Hech narsa topilmadi
-              </Text>
+              </MantineText>
             </Center>
           ) : (
             <div

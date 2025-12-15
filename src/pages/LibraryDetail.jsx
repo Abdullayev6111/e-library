@@ -5,7 +5,6 @@ import {
   Skeleton,
   Badge,
   Group,
-  Text,
   Title,
   Grid,
   Card,
@@ -17,6 +16,7 @@ import {
   ThemeIcon,
   SimpleGrid,
 } from '@mantine/core';
+import { Text as MantineText } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { IconBook, IconMapPin, IconPhone, IconCalendar } from '@tabler/icons-react';
 import LibraryImg from '../assets/images/library-img.jpg';
@@ -89,55 +89,55 @@ const LibrariesDetail = () => {
               <Grid gutter="xl">
                 <Grid.Col span={{ base: 12, sm: 6 }}>
                   <Stack gap={6}>
-                    <Text size="xs" c="dimmed" fw={700} tt="uppercase">
+                    <MantineText size="xs" c="dimmed" fw={700} tt="uppercase">
                       {t('libraryCard.address')}
-                    </Text>
+                    </MantineText>
                     <Group gap="xs">
                       <IconMapPin size={18} color="#00aeff" />
-                      <Text fw={500} size="md">
+                      <MantineText fw={500} size="md">
                         {address}
-                      </Text>
+                      </MantineText>
                     </Group>
                   </Stack>
                 </Grid.Col>
 
                 <Grid.Col span={{ base: 12, sm: 6 }}>
                   <Stack gap={6}>
-                    <Text size="xs" c="dimmed" fw={700} tt="uppercase">
+                    <MantineText size="xs" c="dimmed" fw={700} tt="uppercase">
                       {t('libraryCard.phone')}
-                    </Text>
+                    </MantineText>
                     <Group gap="xs">
                       <IconPhone size={18} color="#00aeff" />
-                      <Text fw={500} size="md">
+                      <MantineText fw={500} size="md">
                         {phone}
-                      </Text>
+                      </MantineText>
                     </Group>
                   </Stack>
                 </Grid.Col>
 
                 <Grid.Col span={{ base: 12, sm: 6 }}>
                   <Stack gap={6}>
-                    <Text size="xs" c="dimmed" fw={700} tt="uppercase">
+                    <MantineText size="xs" c="dimmed" fw={700} tt="uppercase">
                       {t('libraryCard.createdAt')}
-                    </Text>
+                    </MantineText>
                     <Group gap="xs">
                       <IconCalendar size={18} color="#00aeff" />
-                      <Text fw={500} size="md">
+                      <MantineText fw={500} size="md">
                         19.09.1999
-                      </Text>
+                      </MantineText>
                     </Group>
                   </Stack>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 6 }}>
                   <Stack gap={6}>
-                    <Text size="xs" c="dimmed" fw={700} tt="uppercase">
+                    <MantineText size="xs" c="dimmed" fw={700} tt="uppercase">
                       {t('cardDetail.bookQuantity')}:
-                    </Text>
+                    </MantineText>
                     <Group gap="xs">
                       <IconBook size={18} color="#00aeff" />
-                      <Text fw={500} size="md">
+                      <MantineText fw={500} size="md">
                         {totalBooks}
-                      </Text>
+                      </MantineText>
                     </Group>
                   </Stack>
                 </Grid.Col>
@@ -157,9 +157,9 @@ const LibrariesDetail = () => {
         {books.length === 0 ? (
           <Paper withBorder radius="lg" p="xl" shadow="md" mt="lg" maw={700} w="100%">
             <Center h={120}>
-              <Text size="lg" c="dimmed" fw={500}>
+              <MantineText size="lg" c="dimmed" fw={500}>
                 {t('libraryCard.noAdded')}
-              </Text>
+              </MantineText>
             </Center>
           </Paper>
         ) : (
@@ -190,21 +190,21 @@ const LibrariesDetail = () => {
                   <Divider variant="dashed" />
 
                   <Group gap={8}>
-                    <Text size="sm" c="dimmed">
+                    <MantineText size="sm" c="dimmed">
                       {t('card.author')}:
-                    </Text>
-                    <Text size="sm" fw={500} lineClamp={1}>
+                    </MantineText>
+                    <MantineText size="sm" fw={500} lineClamp={1}>
                       {book.author || "Noma'lum"}
-                    </Text>
+                    </MantineText>
                   </Group>
 
                   <Group gap={8}>
-                    <Text size="sm" c="dimmed">
+                    <MantineText size="sm" c="dimmed">
                       {t('card.publisher')}:
-                    </Text>
-                    <Text size="sm" fw={500} lineClamp={1}>
+                    </MantineText>
+                    <MantineText size="sm" fw={500} lineClamp={1}>
                       {book.publisher || "Noma'lum"}
-                    </Text>
+                    </MantineText>
                   </Group>
 
                   <Group justify="space-between" mt="lg">
