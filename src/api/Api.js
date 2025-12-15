@@ -20,7 +20,11 @@ API.interceptors.response.use(
       original._retry = true;
 
       const refresh = localStorage.getItem('refresh');
-      if (!refresh) return Promise.reject(error);
+
+      if (!refresh) {
+        logoutAndRedirect();
+        return Promise.reject(error);
+      }
 
       try {
         const { data } = await axios.post(
@@ -29,17 +33,23 @@ API.interceptors.response.use(
         );
 
         useAuthStore.getState().setToken(data.access);
-
         original.headers.Authorization = `Bearer ${data.access}`;
-
         return API(original);
-      } catch {
-        useAuthStore.getState().logout();
+      } catch (refreshError) {
+        logoutAndRedirect();
+        return Promise.reject(refreshError);
       }
     }
 
     return Promise.reject(error);
   }
 );
+
+function logoutAndRedirect() {
+  const authStore = useAuthStore.getState();
+  authStore.logout();
+  localStorage.removeItem('refresh');
+  window.location.href = '/login';
+}
 
 export default API;
