@@ -131,11 +131,19 @@ const Home = () => {
           onMouseEnter={autoplay.current.stop}
           onMouseLeave={autoplay.current.play}
         >
-          {data?.map((book) => (
-            <Carousel.Slide key={book.id}>
-              <CardEl post={book} />
+          {data && Array.isArray(data) && data.length > 0 ? (
+            data.map((book) => (
+              <Carousel.Slide key={book.id}>
+                <CardEl post={book} />
+              </Carousel.Slide>
+            ))
+          ) : (
+            <Carousel.Slide>
+              <Text ta="center" c="dimmed">
+                Ma'lumot yuklanmoqda...
+              </Text>
             </Carousel.Slide>
-          ))}
+          )}
         </Carousel>
       </div>
     </div>
