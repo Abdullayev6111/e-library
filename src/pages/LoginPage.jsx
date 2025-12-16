@@ -12,8 +12,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {
-      phone: '',
-      password: '',
+      phone: '777070707',
+      password: '123456',
     },
     validate: {
       phone: (value) => (!value ? 'Telefon raqamni kiriting' : null),
