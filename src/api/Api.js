@@ -2,7 +2,7 @@ import axios from 'axios';
 import useAuthStore from '../store/useAuthStore';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: 'https://infections-plays-sewing-finding.trycloudflare.com/api/v1',
 });
 
 API.interceptors.request.use((config) => {
@@ -28,7 +28,7 @@ API.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/auth/login/refresh/`,
+          `https://infections-plays-sewing-finding.trycloudflare.com/api/v1/auth/login/refresh/`,
           { refresh }
         );
 
